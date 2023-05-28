@@ -29,9 +29,17 @@
             @else
 
         <div class="text-center w-1/3 mt-3">
-            <a href="{{ route('acerca') }}" class="">
-                <p class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"> Acerca de</p>
-               </a>
+
+            <div class="flex justify-center items-center">
+                <a href="{{ route('inicio') }}" class="mx-5">
+                    <p class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"> Inicio</p>
+                </a>
+                <a href="{{ route('acerca') }}" class="mx-5">
+                    <p class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"> Acerca de</p>
+                </a>
+            </div>
+            
+
 
         </div>
             @endauth

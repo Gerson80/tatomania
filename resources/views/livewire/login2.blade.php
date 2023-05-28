@@ -48,7 +48,7 @@
                 </div>
                 <div class="grid place-items-center">
                     <x-button type="submit" wire:click="login" class="">
-                        hola
+                        Iniciar
                     </x-button>
                     <div>
                         

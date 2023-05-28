@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('inicio');
-});
+})->name('inicio');
 
 Route::get('/preguntas', function () {
     return view('preguntas');
@@ -52,6 +52,9 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+
+
 
     
 });
