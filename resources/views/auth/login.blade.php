@@ -23,33 +23,52 @@
             @csrf
 
             <div class="flex">
-                <x-label class="p-4" for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="bg-transparent mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+                <div class="w-1/3">
+                    <x-label class="p-4" for="email" value="{{ __('Email') }}"  />
+                </div>
+
+                
+                <x-input id="email" class=" mt-1 w-full"  name="email" :value="old('email')" required autofocus autocomplete="" />
             </div>
 
             <div class=" flex mt-4">
                 <x-label class="p-4" for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
+                <x-input id="password" class="block mt-1 w-full" name="password" required autocomplete="current-password" />
             </div>
 
             <div class="block mt-4">
                 <label for="remember_me" class="flex items-center">
                     <x-checkbox id="remember_me" name="remember" />
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                    <span class="ml-2 text-sm text-gray-600">{{ __('Recordar') }}</span>
                 </label>
             </div>
 
             <div class="flex items-center justify-end mt-4">
+                
+
+                
+            </div>
+            <div class="grid place-items-center">
+                <x-button class="">
+                    {{ __('Iniciar') }}
+                </x-button>
+                <div>
+                    
+                </div>
                 @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
+                    <a class="underline text-sm text-gray-600 hover:text-gray-900 mt-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-Secundario" href="{{ route('password.request') }}">
+                        {{ __('Olvide mi contraseña?') }}
                     </a>
                 @endif
 
-                <x-button class="ml-4">
-                    {{ __('Log in') }}
-                </x-button>
+                
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 mt-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-Secundario" href="{{ route('registro') }}">
+                    {{ __('Crear una cuenta') }}
+                </a>
+                
+
             </div>
+            
         </form>
     </x-authentication-card>
     <footer>

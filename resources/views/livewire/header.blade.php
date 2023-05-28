@@ -38,7 +38,7 @@
         <div class="w-1/3 relative ">
 
 
-            <a href="{{ route('login') }}" class=" ">
+            <a href="{{ route('login2') }}" class=" ">
                 <img src="{{ asset('/img/iconoP.png') }}" width="35" height="35" alt="Descripción de la imagen" usemap="#mi-mapa" class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 absolute inset-y-0 right-0 m-2">
             </a>
 
