@@ -5,11 +5,16 @@
                 
             </div>
             <div class="w-4/6">
-                <a wire:click="mostrarOcultarFormulario">Mostrar/Ocultar Formulario</a>
+                
                
                 <form method="POST" action="{{ route('register') }}">
                     @if ($mostrarFormulario)
                     @csrf
+                    <div class="grid place-items-center  mb-4">
+                        <a  class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110" wire:click="mostrarOcultarFormulario">Regresar</a>
+        
+                        
+                    </div>
                    
                     <div class="text-center text-2xl">
                         <p>REGISTRO</p>
@@ -38,7 +43,7 @@
                         <x-label class="p-4  w-1/6 text-right" for="name" value="{{ __('Estado') }}" />
                         <x-input  id="name" class="block mt-1 w-full h-10"  name="estado" :value="old('estado')" required autofocus  />
                     </div>
-        
+                  
         
                     
                    
@@ -73,13 +78,27 @@
                             </x-label>
                         </div>
                         
-                    @endif
-                   
-                    <div class="grid place-items-center  mt-4">
-                       
-                        <a href="" wire:click="actualizarContenido">Siguiente</a>
                         
-                    </div>
+                       
+        
+                        
+                    @endif
+                        
+                        <x-input  type="hidden" name="admision" value="no" />
+                        <x-input  type="hidden" name="pregunta1" wire:model="pregunta2"    />
+                        <x-input  type="hidden" name="pregunta2" wire:model="pregunta2"    />
+                        <x-input  type="hidden" name="pregunta3" wire:model="pregunta3"    />
+                        <x-input  type="hidden" name="pregunta4" wire:model="pregunta4"    />
+
+                        <div class="grid place-items-center  mt-4">
+                            <x-button  class="ml-4">
+                                registrar
+                            </x-button>
+            
+                            
+                        </div>
+                   
+                    
                     @else
                     
                     <div>
@@ -135,19 +154,25 @@
                             </div>
                         
                        </div>
+                       <div class="grid place-items-center  mt-4">
+                       
+                        
+                        
+                    </div>
                             </div>
     
                         </div>
     
                     </div>
-                    @endif
+
                     <div class="grid place-items-center  mt-4">
-                        <x-button  class="ml-4">
-                            {{ __('Register') }}
-                        </x-button>
+                        <a  class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110" wire:click="mostrarOcultarFormulario">Siguiente</a>
         
                         
                     </div>
+
+                    @endif
+                    
                     
                 </form>
                 
@@ -157,16 +182,14 @@
             
         </div>
     </div>
-    @push('scripts')
     <script>
         document.addEventListener('livewire:load', function () {
-            const segmento = document.getElementById('segmento');
-            Livewire.hook('message.processed', () => {
-                if (segmento.style.display === 'none') {
-                    segmento.style.display = 'block';
-                }
+            Livewire.on('contenidoActualizado', function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
             });
         });
     </script>
-    @endpush
 </div>

@@ -43,6 +43,7 @@ class User extends Authenticatable
         'estado',
         'email',
         'password',
+        'admision',
     ];
 
     /**

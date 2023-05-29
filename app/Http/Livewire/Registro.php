@@ -11,12 +11,15 @@ class Registro extends Component
     public $pregunta2;
     public $pregunta3;
     public $pregunta4;
+
+    
     
    
 
     public function mostrarOcultarFormulario()
     {
         $this->mostrarFormulario = !$this->mostrarFormulario;
+        $this->emit('contenidoActualizado');
     }
 
 

@@ -1,5 +1,7 @@
 <?php
 
+  
+
 namespace App\Http\Livewire;
 
 use Livewire\Component;
@@ -25,10 +27,12 @@ class Login2 extends Component
             } else {
                 // El usuario no tiene el rol especificado
                 return redirect()->intended('/admin'); // Redirigir a la ventana 2
+                
             }
         }else{
             $this->addError('email', 'Las credenciales ingresadas nhjhggo son válidas.');
-            return redirect()->intended('/login2');
+            
+           
 
 
         }
@@ -36,6 +40,8 @@ class Login2 extends Component
             
         // El usuario ha iniciado sesión correctamente
         //return redirect()->intended('/registro'); // Redirigir a la página deseada después del inicio de sesión
+    }else{
+        $this->addError('email', 'Las credenciales ingresadas nhjhggo son válidas.');
     }
 
     // Las credenciales no son válidas, mostrar un mensaje de error
@@ -45,4 +51,5 @@ class Login2 extends Component
     {
         return view('livewire.login2');
     }
+    
 }
