@@ -19,11 +19,18 @@
                 
         </div>
             @auth
-                <div class="text-center w-1/3">
-                    <div>inicio</div>
-                    <div>acerca de</div>
-                    <div>Vivencias</div>
-                </div>
+            <div class="w-1/3 flex justify-center items-center">
+                <a href="{{ route('iniciologin') }}" class="mx-5">
+                    <p class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"> Inicio</p>
+                </a>
+                <a href="{{ route('acerca') }}" class="mx-5">
+                    <p class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"> Vivencias</p>
+                </a>
+                <a href="{{ route('acerca') }}" class="mx-5">
+                    <p class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"> Acerca de</p>
+                </a>
+            </div>
+                
             
                 
             @else

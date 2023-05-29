@@ -53,6 +53,10 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
+    Route::get('/iniciologin', function () {
+        return view('iniciologin');
+    })->name('iniciologin');
+
 
 
 

@@ -21,7 +21,7 @@ class Login2 extends Component
         if ($user->admision === 'si') {
             if ($user->hasRole('Normal')) {
                 // El usuario tiene el rol especificado
-                return redirect()->intended('/registro'); // Redirigir a la ventana 1
+                return redirect()->intended('/iniciologin'); // Redirigir a la ventana 1
             } else {
                 // El usuario no tiene el rol especificado
                 return redirect()->intended('/admin'); // Redirigir a la ventana 2
