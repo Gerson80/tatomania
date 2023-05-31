@@ -33,7 +33,7 @@
 
             <div class=" flex mt-4">
                 <x-label class="p-4" for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" name="password" required autocomplete="current-password" />
+                <x-input type="password" id="password" class="block mt-1 w-full" name="password" required autocomplete="current-password" />
             </div>
 
             <div class="block mt-4">
@@ -75,3 +75,35 @@
         <x-footer/>
     </footer>
 </x-guest-layout>
+<script>
+    document.addEventListener('livewire:load', function () {
+    Livewire.on('mensajeCamposVacios', function () {
+        Swal.fire({
+            title: 'Disculpa!',
+            text: 'Porfavor llena todo los campos',
+            icon: '/img/icono-error.svg',
+            confirmButtonText: 'Aceptar'
+            })
+    });
+    Livewire.on('mensajeAceptacion', function () {
+        Swal.fire({
+            title: '¡REGISTRO COMPLETO!',
+            text: 'Sus respuestas serán evaluadas',
+            text: 'Espere el correo de aceptación',
+            text: 'Compruebe su correo (Incluyendo la bandeja de correos no deseados o spam',
+
+            icon: '/img/icono-error.svg',
+            confirmButtonText: 'Aceptar'
+            })
+    });
+    
+});
+
+</script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        // Redireccionar a la página deseada
+        window.location.href = 'login2';
+    });
+</script>

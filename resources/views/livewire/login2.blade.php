@@ -1,5 +1,5 @@
 
-<div>
+<div >
 
     
         
@@ -19,7 +19,7 @@
             
             <x-icono-mujer/>
     
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" wire:submit.prevent="login">
                 @csrf
     
                 <div class="flex">
@@ -28,12 +28,12 @@
                     </div>
     
                     
-                    <x-input wire:model="email" id="email" class=" mt-1 w-full"  name="email" :value="old('email')" required autofocus autocomplete="" />
+                    <x-input  wire:model="email" id="email" class=" mt-1 w-full"  name="email" :value="old('email')" required autofocus autocomplete="" />
                 </div>
     
                 <div class=" flex mt-4">
                     <x-label class="p-4" for="password" value="{{ __('Password') }}" />
-                    <x-input id="password" wire:model="password" class="block mt-1 w-full" name="password" required autocomplete="current-password" />
+                    <x-input type="password" id="password" wire:model="password" class="block mt-1 w-full" name="password" required autocomplete="current-password" />
                 </div>
     
                 <div class="block mt-4">
@@ -74,3 +74,40 @@
 
     
 </div>
+<script>
+    document.addEventListener('livewire:load', function () {
+    Livewire.on('mensaje1', function () {
+        Swal.fire({
+            title: 'Disculpa!',
+            text: 'Espere a que se autorice su solicitud',
+            iconHtml: '<img src="{{ asset('img/icono-error.svg') }}" class="custom-icon">',
+            confirmButtonText: 'Aceptar',
+            customClass:{
+                icon: 'custom-icon'
+                
+            },
+            })
+    });
+    Livewire.on('mensaje2', function () {
+        Swal.fire({
+            title: 'Disculpa!',
+            text: 'No encontramos su nombre en nuestra lista',
+            iconHtml: '<img src="{{ asset('img/icono-error.svg') }}" class="custom-icon">',
+            confirmButtonText: 'Aceptar',
+            buttonsStyling: false,
+            customClass:{
+                icon: 'custom-icon',
+                confirmButton: 'inline-flex items-center px-4 py-2 bg-Primario border border-transparent rounded-md font-semibold text-xs text-white transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 uppercase tracking-widest hover:bg-Secundario focus:Secundario active:bg-gray-900 focus:outline-none focus:ring-2 focus:bg-Secundario focus:ring-offset-2 transition ease-in-out duration-150'
+            },
+            })
+    });
+    
+});
+
+</script>
+<style>
+    .custom-icon{
+        border: 0;
+    }
+</style>
+

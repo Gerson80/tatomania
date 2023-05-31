@@ -18,34 +18,40 @@ class Login2 extends Component
         'password' => $this->password,
     ];
 
-    if (auth()->attempt($credentials)) {
-        $user = User::where('email', $this->email)->first();
-        if ($user->admision === 'si') {
+    $user = User::where('email', $this->email)->first();
+
+if ($user) {
+    // Verificar si la casilla "admision" es "si"
+    if ($user->admision === 'si') {
+        if (auth()->attempt($credentials)) {
             if ($user->hasRole('Normal')) {
                 // El usuario tiene el rol especificado
                 return redirect()->intended('/iniciologin'); // Redirigir a la ventana 1
             } else {
                 // El usuario no tiene el rol especificado
-                return redirect()->intended('/admin'); // Redirigir a la ventana 2
-                
+                return redirect()->intended('/admin'); // Redirigi r a la ventana 2
             }
-        }else{
-            $this->addError('email', 'Las credenciales ingresadas nhjhggo son válidas.');
-            
-           
-
-
+        } else {
+            // Las credenciales de inicio de sesión no son válidas
+            // Realizar alguna acción adicional si es necesario
+            return;
         }
-
-            
-        // El usuario ha iniciado sesión correctamente
-        //return redirect()->intended('/registro'); // Redirigir a la página deseada después del inicio de sesión
-    }else{
-        $this->addError('email', 'Las credenciales ingresadas nhjhggo son válidas.');
+    } else {
+        // Casilla "admision" es "no"
+        $this->emit('mensaje1');
+        $this->reset(['email', 'password']);
+        return;
     }
+} else {
+    // Usuario no encontrado
+    // Realizar alguna acción adicional si es necesario
+    $this->emit('mensaje2');
+    return;
+}
 
     // Las credenciales no son válidas, mostrar un mensaje de error
-    $this->addError('email', 'Las credenciales ingresadas no son válidas.');
+ 
+    
 }
     public function render()
     {

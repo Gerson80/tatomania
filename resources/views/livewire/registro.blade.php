@@ -24,7 +24,7 @@
         
                     <div class="flex mt-2">
                         <x-label class="p-4 w-1/6 text-right" for="name" value="{{ __('Nombre') }}" />
-                        <x-input  id="name" class="block mt-1 w-full h-10"  name="name" :value="old('name')" required autofocus  />
+                        <x-input id="name" class="block mt-1 w-full h-10"  name="name" :value="old('name')" required autofocus  />
                     </div>
                     <div class="flex mt-2">
                         <x-label class="p-4 w-1/6 text-right" for="name" value="{{ __('Apellidos') }}" />
@@ -35,9 +35,9 @@
                         <x-input  id="name" class="block mt-1 w-full h-10"  name="edad" :value="old('edad')" required autofocus  />
                     </div>
                     <div class="flex mt-2">
-                        <x-label class="p-4 w-1/6 text-right" for="name" value="{{ __('Foto') }}" />
+                        <x-label  class="p-4 w-1/6 text-right" for="name" value="{{ __('Foto') }}" />
                         
-                        <input  class="relative m-0 block h-full w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] font-normal leading-[2.15] text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-Secundario file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-Secundario focus:border-Primario focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-Primario dark:file:text-neutral-100 dark:focus:border-primary" type="file" name="foto" :value="old('foto')" required autofocus />
+                        <input   class="relative m-0 block h-full w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] font-normal leading-[2.15] text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-Secundario file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-Secundario focus:border-Primario focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-Primario dark:file:text-neutral-100 dark:focus:border-primary" type="file" name="foto" :value="old('foto')" required autofocus />
                     </div>
                     <div class="flex mt-2">
                         <x-label class="p-4  w-1/6 text-right" for="name" value="{{ __('Estado') }}" />
@@ -49,7 +49,7 @@
                    
                     <div class="mt-2 flex">
                         <x-label class="p-4  w-1/6 text-right" for="email" value="{{ __('Email') }}" />
-                        <x-input  id="email" class="block mt-1 w-full h-10"  name="email" :value="old('email')" required  />
+                        <x-input   id="email" class="block mt-1 w-full h-10"  name="email" :value="old('email')" required  />
                     </div>
         
                     <div class="mt-2 flex">
@@ -91,7 +91,7 @@
                         <x-input  type="hidden" name="pregunta4" wire:model="pregunta4"    />
 
                         <div class="grid place-items-center  mt-4">
-                            <x-button  class="ml-4">
+                            <x-button wire:click="registrar"  class="ml-4">
                                 registrar
                             </x-button>
             
@@ -193,3 +193,41 @@
         });
     </script>
 </div>
+<script>
+    document.addEventListener('livewire:load', function () {
+    Livewire.on('mensajeCamposVacios', function () {
+        Swal.fire({
+            title: 'Disculpa!',
+            text: 'Porfavor llena todo los campos',
+            iconHtml: '<img src="{{ asset('img/icono-error.svg') }}" class="custom-icon">',
+            confirmButtonText: 'Aceptar',
+            buttonsStyling: false,
+            customClass:{
+                icon: 'custom-icon',
+                confirmButton: 'inline-flex items-center px-4 py-2 bg-Primario border border-transparent rounded-md font-semibold text-xs text-white transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 uppercase tracking-widest hover:bg-Secundario focus:Secundario active:bg-gray-900 focus:outline-none focus:ring-2 focus:bg-Secundario focus:ring-offset-2 transition ease-in-out duration-150'
+            },
+            })
+    });
+    Livewire.on('mensajeAceptacion', function () {
+        Swal.fire({
+            title: '¡REGISTRO COMPLETO!',
+            text: 'Sus respuestas serán evaluadas',
+            text: 'Espere el correo de aceptación',
+            text: 'Compruebe su correo (Incluyendo la bandeja de correos no deseados o spam',
+            showConfirmButton: false,
+            iconHtml: '<img src="{{ asset('img/icono-error.svg') }}" class="custom-icon">',
+            customClass:{
+                icon: 'custom-icon',
+                
+            },
+            })
+    });
+});
+
+</script>
+
+<style>
+    .custom-icon{
+        border: 0;
+    }
+</style>
