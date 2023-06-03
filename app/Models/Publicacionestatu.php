@@ -9,9 +9,27 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+
+
 class Publicacionestatu extends Model
 {
     use HasFactory;
+
+
+    protected $fillable = [
+        'foto',
+        'categoria',
+        'historia',
+        'name',
+        'last_name',
+        'experiencia',
+        'numero',
+        'email',
+        'pais',
+        'user_id',
+        'autorizado'
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

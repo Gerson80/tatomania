@@ -43,6 +43,10 @@ Route::get('/login2', function () {
     return view('login2');
 })->name('login2');
 
+Route::get('/welcome', function () {
+    return view('welcome');
+})->name('welcome');
+
 
 Route::middleware([
     'auth:sanctum',

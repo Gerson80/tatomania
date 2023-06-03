@@ -20,6 +20,7 @@ class PublicacionestatuFactory extends Factory
         $nombre=fake()->firstName();
         $apellidos=fake()->lastName(); 
         $user=User::all()->random();
+        $auto='si';
 
         return [
             //
@@ -33,7 +34,8 @@ class PublicacionestatuFactory extends Factory
             'email' => $nombre.'.'.$apellidos.'@gmail.com',
              'email_verified_at' => now(),
             'pais' =>fake()->randomElement(['México','Estados Unidos']),
-            'user_id'=>$user
+            'user_id'=>$user,
+            'autorizado'=> $auto
 
            
         ];

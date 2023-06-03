@@ -73,10 +73,14 @@
 
             <div class="grid grid-cols-3 gap-10 ">
                 @foreach($publicaciones as $publicacion)
+                @if($publicacion->autorizado=="si")
                 <div class="h-96 container my-2 block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]">
                     <div  class="h-56 bg-neutral-200 relative">
-                        <img src="{{ $publicacion->foto }}" alt="" class="w-full h-full rounded-t-lg">
+                        <img src="data:image/jpeg;base64,{{ $publicacion->foto }}" alt="imagen" class="w-full h-full rounded-t-lg">
+                        @if($publicacion->user->id==$user->id)
                         <button wire:click="opciones({{ $publicacion->id }})"  class=" m-2 absolute inset-y-0 right-0 transition  duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 flex justify-center h-0  sm:h-6  items-center w-10   bg-cover " style="background-image: url('{{ asset('/img/opciones.svg') }}')"></button>
+                        @endif
+                       
                     </div>
                     <div class="flex my-3 text-xl uppercase mx-3">
                         <div class="w-5/6">  <p> {{ $publicacion->user->name }} &nbsp {{ $publicacion->user->last_name }}</p></div>
@@ -95,6 +99,7 @@
                     </div>
                     
                 </div>
+                @endif
                 @endforeach
 
                 
@@ -122,8 +127,8 @@
 
                     </div>
                     <div class="grid text-3xl place-items-center mt-6">
-                        <x-button >
-                            Editar
+                        <x-button wire:click="editarPublicacion">
+                            Editar 
                         </x-button>
                     </div>
                     <div class="grid text-3xl place-items-center my-6">
@@ -143,7 +148,7 @@
 
     @if($modalAgregar)
     <div class="m-10 border-2 border-Adicional">
-        <div class="text-center">
+        <div class="text-center text-2xl mt-3">
             <h1>Foto</h1>
         </div>
         <div class="grid place-items-center">
@@ -151,31 +156,92 @@
                 <label for="imagen" class="cursor-pointer">
                     <input type="file" id="imagen" wire:model="imagen" class="hidden" style="background-image: url('{{ asset('/img/subir.svg') }}')">
                     <div class="w-48 h-48  bg-transparent flex items-center justify-center">
-                        @if ($imagen)
-                            <img src="{{ $imagen->temporaryUrl() }}" alt="Imagen seleccionada" class="w-48 h-48 ">
+                        @if(!$cualVentanaEntro)
+                            @if ($imagen)
+                            
+                                <img src="{{ $imagen->temporaryUrl() }}" alt="Imagen seleccionada" class="w-48 h-48 ">
+                            @else
+                                <img src="{{ asset('/img/subir.svg') }}" alt="">
+                            @endif
                         @else
-                            <img src="{{ asset('/img/subir.svg') }}" alt="">
+                            @if ($imagen)
+                                <img src="{{ $imagen->temporaryUrl() }}" alt="Imagen seleccionada" class="w-48 h-48 ">
+                                
+                            @elseif ($imagen2)
+                                <img src="data:image/jpeg;base64,{{ $imagen2 }}" alt="">
+
+                            @else
+                                <img src="{{ asset('/img/subir.svg') }}" alt="">
+                            @endif
                         @endif
+                        
                     </div>
                 </label>
             </div>
 
         </div>
-        <div class="">
-            <div class="w-96">
-                <label for="countries" class=" taxt-center block mb-2 text-sm font-medium text-gray-900 ">Select an option</label>
-                <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option selected>Choose a country</option>
-                <option value="US">United States</option>
-                <option value="CA">Canada</option>
-                <option value="FR">France</option>
-                <option value="DE">Germany</option>
+        <div class="grid place-items-center my-3 text-lg">
+            <div class="w-80 flex">
+                <x-label class=" text-lg mt-3 mr-3" for="name" value="{{ __('Categoria') }}" />
+                <select id="categoria" wire:model="categoria" name="categoria" :value="old('categoria')"  class=" bg-transparent border border-Primario text-gray-900 text-sm rounded-lg focus:ring-Secundario focus:border-Secundario block w-full p-2.5 ">
+                    <option selected>Elige una opción</option>
+                    <option value="flores"  class="bg-transparent hover:bg-Secundario focus:ring-Secundario">Flores</option>
+                    <option value="animales">Animales</option>
+                
                 </select>
 
             </div>
-            
+                       
         </div>
-       
+        <div class="grid grid-cols-6 gap-4 mx-5 text-lg border-2 border-transparent border-b-Primario">
+            <div class="col-start-2 col-span-4">
+                <x-label class=" text-lg mt-3" for="name" value="{{ __('Historia') }}" />
+                <textarea  id="historia" wire:model="historia" name="historia" : cols="30" rows="3" class=" mb-3 w-full block border-b-black autofill:bg-white border-2 border-transparent bg-white focus:border-Secundario focus:bg-white focus:outline-none"></textarea>
+            </div>
+
+        </div>
+        <h2 class="text-center text-lg mt-4 ">Datos del tatuador</h2>
+        <div class="grid grid-cols-6 gap-4 mx-5 text-xl">
+            <div class="col-start-2 col-span-4">
+                <div class="mt-2">
+                    <x-label class=" text-lg mt-3" for="name" value="{{ __('Nombre') }}" />
+                    <x-input  id="nombre" wire:model="nombre" class="block text-lg mt-1 w-full h-10"  name="nombre" :value="old('nombre')" required   />
+                </div>
+                <div class="mt-2">
+                    <x-label class=" text-lg mt-3" for="name" value="{{ __('Apellidos') }}" />
+                    <x-input  id="apellidos" wire:model="apellidos" class="block text-lg mt-1 w-full h-10"  name="apellidos" :value="old('apellidos')" required   />
+                </div>
+                <div class="mt-2">
+                    <x-label class=" text-lg mt-3" for="name" value="{{ __('Cuentame') }}" />
+                    <textarea  id="cuentame" wire:model="cuentame" name="cuentame" : cols="30" rows="3" class="mt-1 text-lg mb-3 w-full block border-b-black autofill:bg-white border-2 border-transparent bg-white focus:border-Secundario focus:bg-white focus:outline-none"></textarea>
+                   
+                </div>
+                <div class="mt-2">
+                    <x-label class=" text-lg mt-3" for="name" value="{{ __('Numero') }}" />
+                    <x-input  id="numero" wire:model="numero" class="block text-lg mt-1 w-full h-10"  name="numero" :value="old('numero')"    />
+                </div>
+                <div class="mt-2">
+                    <x-label class=" text-lg mt-3" for="name" value="{{ __('Correo') }}" />
+                    <x-input  id="correo" wire:model="correo" class="block text-lg mt-1 w-full h-10"  name="correo" :value="old('correo')"   />
+                </div>
+                @if(!$cualVentanaEntro)
+                <div class="grid text-3xl place-items-center my-6">
+                    <x-button wire:click="enviarDatos" >
+                        Guardar
+                    </x-button>
+                </div>
+                @endif
+                @if($cualVentanaEntro)
+                <div class="grid text-3xl place-items-center my-6">
+                    <x-button wire:click="actualizarDatos" >
+                        Guardar
+                    </x-button>
+                </div>
+                @endif
+               
+            </div>
+
+        </div>
            
         
         
@@ -202,8 +268,8 @@
             buttonsStyling: false,
             customClass:{
                 icon: 'custom-icon',
-                confirmButton: 'mr-5 inline-flex items-center px-4 py-2 bg-Primario border border-transparent rounded-md font-semibold text-xs text-white transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 uppercase tracking-widest hover:bg-Secundario focus:Secundario active:bg-Secundario focus:outline-none focus:ring-2 focus:bg-Secundario focus:ring-offset-2 transition ease-in-out duration-150',
-                cancelButton: 'ml-5 inline-flex items-center px-4 py-2 bg-Primario border border-transparent rounded-md font-semibold text-xs text-white transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 uppercase tracking-widest hover:bg-Secundario focus:Secundario active:bg-Secundario focus:outline-none focus:ring-2 focus:bg-Secundario focus:ring-offset-2 transition ease-in-out duration-150'
+                confirmButton: 'mr-5 inline-flex items-center px-4 py-2 bg-Primario border border-transparent rounded-md font-semibold text-xs text-white transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 uppercase tracking-widest hover:bg-Secundario focus:Secundario active:bg-Secundario focus:outline-none focus:Adicional focus:bg-Secundario focus:ring-offset-2 transition ease-in-out duration-150',
+                cancelButton: 'ml-5 inline-flex items-center px-4 py-2 bg-Primario border border-transparent rounded-md font-semibold text-xs text-white transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 uppercase tracking-widest hover:bg-Secundario focus:Secundario active:bg-Secundario focus:outline-none focus:Adicional focus:bg-Secundario focus:ring-offset-2 transition ease-in-out duration-150'
             },
             }).then((result) => {
             if (result.isConfirmed) {
@@ -221,7 +287,41 @@
     });
     Livewire.on('refreshComponent', function () {
         location.reload();
-        });
+    });
+    Livewire.on('mensajeEnviado', function () {
+        Swal.fire({
+            title: 'Enviado',
+            text: 'Su publicación se va a evaluar, le avisamos cuando se autorize',
+            iconHtml: '<img src="{{ asset('img/icono-error.svg') }}" class="custom-icon">',
+            confirmButtonText: 'Aceptar',
+            buttonsStyling: false,
+            customClass:{
+                icon: 'custom-icon',
+                confirmButton: 'inline-flex items-center px-4 py-2 bg-Primario border border-transparent rounded-md font-semibold text-xs text-white transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 uppercase tracking-widest hover:bg-Secundario focus:Secundario active:bg-Secundario focus:outline-none focus:Adicional focus:bg-Secundario focus:ring-offset-2 transition ease-in-out duration-150'
+            },
+            })
+            
+    });
+    Livewire.on('actializacionLista', function () {
+        Swal.fire({
+            title: 'Perfecto',
+            text: 'Haz actualizado tu publicación correctamente',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            buttonsStyling: false,
+            customClass:{
+                icon: 'custom-icon',
+                confirmButton: 'inline-flex items-center px-4 py-2 bg-Primario border border-transparent rounded-md font-semibold text-xs text-white transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 uppercase tracking-widest hover:bg-Secundario focus:Secundario active:bg-Secundario focus:outline-none focus:Adicional focus:bg-Secundario focus:ring-offset-2 transition ease-in-out duration-150'
+            },
+            }).then((result) => {
+            if (result.isConfirmed) {
+                location.reload();
+                
+                
+            }
+            });
+            
+    });
     
 });
 
