@@ -30,6 +30,53 @@
                     <p class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"> Acerca de</p>
                 </a>
             </div>
+            <div class=" relative w-1/3 ">
+                <x-dropdown align="right" width="48">
+                    <x-slot name="trigger">
+                        @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
+                            <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition ">
+                                <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                            </button>
+                        @else
+                            <span class="inline-flex rounded-md ml-auto">
+                                <button type="button" >
+
+                                    <img src="{{ asset('/img/iconoP.png') }}" width="35" height="35" alt="Descripción de la imagen" usemap="#mi-mapa" class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 absolute inset-y-0 right-0 m-2">
+                                </button>
+                            </span>
+                        @endif
+                    </x-slot>
+    
+                    <x-slot name="content">
+                        <!-- Account Management -->
+                        <div class="block px-4 py-2 text-xs text-gray-400">
+                            {{ Auth::user()->name }}
+                        </div>
+    
+                        <x-dropdown-link href="{{ route('profile.show') }}">
+                            {{ __('Perfil') }}
+                        </x-dropdown-link>
+    
+                        @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
+                            <x-dropdown-link href="{{ route('api-tokens.index') }}">
+                                {{ __('API Tokens') }}
+                            </x-dropdown-link>
+                        @endif
+    
+                        <div class="border-t border-gray-200 dark:border-gray-600"></div>
+    
+                        <!-- Authentication -->
+                        <form method="POST" action="{{ route('logout') }}" x-data>
+                            @csrf
+    
+                            <x-dropdown-link href="{{ route('logout') }}"
+                                     @click.prevent="$root.submit();">
+                                {{ __('Cerrar sesión') }}
+                            </x-dropdown-link>
+                        </form>
+                    </x-slot>
+                </x-dropdown>
+            </div>
                 
             
                 
@@ -46,10 +93,10 @@
                 </a>
             </div>
             
+            
 
 
         </div>
-            @endauth
         <div class="w-1/3 relative ">
 
 
@@ -60,6 +107,11 @@
             
 
         </div>
+            @endauth
+        
+        
+        
+
         @endif
 
 
