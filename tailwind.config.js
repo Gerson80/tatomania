@@ -21,7 +21,12 @@ export default {
                 'Primario': '#EFA39C',
                 'Secundario': '#FFA2A2',
                 'Adicional': ' #FE0895',
+                'Gris': '#CCCCCC',
+
             },
+            width: {
+                '128': '48rem',
+              }
         },
     },
 

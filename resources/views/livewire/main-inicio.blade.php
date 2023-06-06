@@ -22,7 +22,7 @@
                 <div class="flex pt-6">
                     <div class="w-1/6">
                     </div>                           
-                    <a href="{{ route('register') }}" class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 bg-white hover:bg-gray-100 text-gray-800  py-2 px-4 border border-gray-400 rounded shadow">Registrarme ahora</a>
+                    <a href="{{ route('registro') }}" class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 bg-white hover:bg-gray-100 text-gray-800  py-2 px-4 border border-gray-400 rounded shadow">Registrarme ahora</a>
                     
                 </div>
         
@@ -170,6 +170,8 @@
     </div>
     
     @endif
+
+    
     <script>
         document.addEventListener('livewire:load', function () {
             Livewire.on('contenidoActualizado', function () {
