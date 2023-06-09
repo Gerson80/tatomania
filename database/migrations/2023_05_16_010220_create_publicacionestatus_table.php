@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('numero',13);
             $table->string('email')->unique();
             $table->string('pais');
+            $table->string('autorizado');
 
             $table->foreignId('user_id')
 

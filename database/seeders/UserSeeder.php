@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
@@ -12,15 +13,20 @@ use App\Models\Vivencia;
 use App\Models\Liketat;
 use App\Models\Likevivencia;
 
+
+
 class UserSeeder extends Seeder
 {
     /**
-     * Run the database seeds. fsgg
+     * Run the database seeds.
      */
     public function run(): void
     {
+      
         //
+      $this->call(RolSeeder::class);
        User::factory()
+       
        ->count(100)
        ->hasEncuestas(1)
        ->hasPublicacionestatus(1) 
@@ -32,6 +38,11 @@ class UserSeeder extends Seeder
        ->hasLikevivencias(1) 
        
        
-         ->create();
+         ->create()
+         ->each(function ($user) {
+          $user->assignRole('Normal');
+      });
+
+      
    }
 }
