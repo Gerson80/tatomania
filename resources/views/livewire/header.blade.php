@@ -23,7 +23,7 @@
                 <a href="{{ route('iniciologin') }}" class="mx-5">
                     <p class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"> Inicio</p>
                 </a>
-                <a href="{{ route('acerca') }}" class="mx-5">
+                <a href="{{ route('vivencias') }}" class="mx-5">
                     <p class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"> Vivencias</p>
                 </a>
                 <a href="{{ route('acerca') }}" class="mx-5">

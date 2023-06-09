@@ -14,6 +14,13 @@ class Comentariostatu extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'comentario',
+        'user_id',
+        'publicacionestatu_id'
+ 
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
