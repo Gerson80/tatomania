@@ -48,6 +48,8 @@ Route::get('/welcome', function () {
 })->name('welcome');
 
 
+
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -56,10 +58,19 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('iniciologin');
     })->name('dashboard');
+    
 
     Route::get('/iniciologin', function () {
         return view('iniciologin');
     })->name('iniciologin');
+
+    Route::get('/vivencias', function () {
+        return view('vivencias');
+    })->name('vivencias');
+
+    Route::get('/perfil', function () {
+        return view('perfil');
+    })->name('perfil');
 
 
 

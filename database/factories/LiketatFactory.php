@@ -23,7 +23,8 @@ class LiketatFactory extends Factory
         return [
             //
             'comentariostatu_id'=>$comentariostatu,
-            'user_id'=>$user
+            'user_id'=>$user,
+            
 
             
         ];

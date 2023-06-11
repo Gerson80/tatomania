@@ -5,6 +5,10 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\User;
 use App\Models\Publicacionestatu;
+use App\Models\Comentariostatu;
+use App\Models\Liketat;
+
+
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
@@ -21,10 +25,17 @@ class InicioLogin extends Component
     public $usuarios;
     public $user;
     public $publicaciones;
+    public $comentarios;
+    public $meGusta;
     public $modalVisible = false;
     public $modalOpciones = false;
+    public $modalOpcionesComentario = false;
     public $modalAgregar = false;
+    public $modalDatosPublicacion = false;
+    public $mostrarComentario = true;
     public $queFotoGuardar = 1;
+    public $selectedCategory;
+    public $comentario;
 
 
     public $imagen;
@@ -39,10 +50,17 @@ class InicioLogin extends Component
     public $pais="mexico";
     public $autorizado="no";
 
+    public $nombrePublico;
+
 
     public $selectedCardId ;
+    public $selectedCardId2 ;
     public $card;
     public $cualVentanaEntro= false;
+    public $cualVentanaEntro2= false;
+
+
+
 
     
     public function enviarDatos()
@@ -54,13 +72,13 @@ class InicioLogin extends Component
             
             'foto' => $fotoBLOB,
             'categoria' => $this->categoria,
-            'historia' => $this->historia,
-            'name' => $this->nombre,
-            'last_name' => $this->apellidos,
-            'experiencia' => $this->cuentame,
+            'historia' => strtolower($this->historia),
+            'name' => strtolower( $this->nombre),
+            'last_name' => strtolower(  $this->apellidos),
+            'experiencia' => strtolower( $this->cuentame) ,
             'numero' => $this->numero,
-            'email' => $this->correo,
-            'pais' => $this->pais,
+            'email' => strtolower( $this->correo) ,
+            'pais' => strtolower( $this->pais),
             'user_id' => $this-> user->id,
             'autorizado' => $this->autorizado,
             
@@ -106,12 +124,12 @@ class InicioLogin extends Component
         }
 
         $elemento->categoria = $this->categoria;
-        $elemento->historia = $this->historia;
-        $elemento->name = $this->nombre;
-        $elemento->last_name = $this->apellidos;
-        $elemento->experiencia = $this->cuentame;
-        $elemento->numero = $this->numero;
-        $elemento->email = $this->correo;
+        $elemento->historia = strtolower($this->historia);
+        $elemento->name = strtolower($this->nombre);
+        $elemento->last_name =  strtolower($this->apellidos);
+        $elemento->experiencia =  strtolower($this->cuentame);
+        $elemento->numero =  strtolower($this->numero);
+        $elemento->email = strtolower($this->correo) ;
         $elemento->save();
         $this->emit('actializacionLista');
         
@@ -142,6 +160,8 @@ class InicioLogin extends Component
     public function mount()
 {
     $this->publicaciones = Publicacionestatu::all();
+    $this->comentarios = Comentariostatu::all();
+    $this->meGusta = Liketat::all();
     $this->user = Auth::user();
     if (!Session::has('modalVisible')) {
         $this->modalVisible = true;
@@ -160,11 +180,115 @@ public function opciones($cardId)
     $this->selectedCardId = $cardId;
     $this->modalOpciones = !$this->modalOpciones;
 }
+
+
+public function mostrarCPublicacion($cardId)
+{
+    $this->selectedCardId = $cardId;
+    $elemento = Publicacionestatu::find($cardId);
+
+    $this->nombrePublico = $elemento->user->name;
+    $this->imagen2 =  $elemento->foto;
+    $this->historia = $elemento->historia;
+    $this->nombre = $elemento->name;
+    $this->apellidos = $elemento->last_name;
+    $this->cuentame = $elemento->experiencia;
+    $this->numero = $elemento->numero;
+    $this->correo = $elemento->email;
+
+       
+    $this->modalDatosPublicacion = !$this->modalDatosPublicacion;
+
+
+}
+
+public function cometarPublicacion()
+{
+    $this->mostrarComentario = !$this->mostrarComentario;
+    $elemento = Publicacionestatu::find($this->selectedCardId);
+    Comentariostatu::create([
+            
+            
+        'comentario' => $this->comentario,
+        'user_id' => $this->user->id,
+        'publicacionestatu_id' => $elemento->id
+        
+        
+        
+    ]);
+    $this->reset([ 'comentario' ]);
+    $this->emit('comentarioAgregado');
+    $this->mostrarComentario = !$this->mostrarComentario;
+
+   
+}
+
+
 public function opciones2()
 {
   
     $this->modalOpciones = !$this->modalOpciones;
 }
+
+public function opcionesComentario($cardId)
+{
+    $this->selectedCardId2 = $cardId;
+    $this->modalOpcionesComentario = !$this->modalOpcionesComentario;
+}
+public function opcionesComentario2()
+{
+    $this->modalOpcionesComentario = !$this->modalOpcionesComentario;
+}
+public function editarComentario()
+    {  
+        $this->modalOpcionesComentario = !$this->modalOpcionesComentario;
+        $this->cualVentanaEntro2 = !$this->cualVentanaEntro2;
+        
+        $elemento = Comentariostatu::find($this->selectedCardId2);
+        $this->comentario =  $elemento->comentario;
+        
+       
+       
+    }
+    public function actualizarComentario()
+    {   
+        
+        $elemento = Comentariostatu::find($this->selectedCardId2);
+
+        
+        $elemento->comentario = $this->comentario;
+        $elemento->save();
+        $this->emit('actualComentario');
+        $this->reset([ 'comentario' ]);
+        
+        
+       
+    }
+
+    public function deleteCard2()
+    {   
+        $this->modalOpcionesComentario = !$this->modalOpcionesComentario;
+        $this->emit('mensajeEliminar2',$this->selectedCardId2); 
+        $card = Comentariostatu::find($this->selectedCardId2);
+        if ($card) {
+            $card->delete();
+            $this->selectedCardId2 = null;
+            $this->emit('refreshComponent');
+        }
+        
+        
+    }
+
+    public function eliminarArchivoo($id)
+    {
+        $card = Comentariostatu::find($this->selectedCardId2);
+        if ($card) {
+            $card->delete();
+            $this->selectedCardId2 = null;
+            $this->emit('refreshComponent');
+        }
+    }
+
 
 
 
@@ -175,5 +299,12 @@ public function opciones2()
         return view('livewire.inicio-login');
     }
     
+
+
+
+
+
+
+
     protected $listeners = ['eliminarArchivo'];
 }

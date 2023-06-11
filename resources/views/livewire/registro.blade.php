@@ -7,7 +7,7 @@
             <div class="w-4/6">
                 
                
-                <form method="POST" action="{{ route('register') }}">
+                <form method="POST" action="{{ route('register') }}"  enctype="multipart/form-data">
                     @if ($mostrarFormulario)
                     @csrf
                     <div class="grid place-items-center  mb-4">
@@ -91,7 +91,7 @@
                         <x-input  type="hidden" name="pregunta4" wire:model="pregunta4"    />
 
                         <div class="grid place-items-center  mt-4">
-                            <x-button wire:click="registrar"  class="ml-4">
+                            <x-button wire:click="registrar" type="submit"  class="ml-4">
                                 registrar
                             </x-button>
             
@@ -101,11 +101,11 @@
                     
                     @else
                     
-                    <div>
+                    <div class="text-gray-700">
                         <div class="text-center text-2xl">
                             <p>REGISTRO</p>
                         </div>
-                        <p>Fusce tempus fermentum sodales. Ut quam odio, scelerisque vitae sapien hendrerit, dictum accumsan purus. In urna purus, blandit eget semper eu, aliquet sed sapien. Curabitur eget massa varius, rutrum dui vel, placerat ipsum. Morbi tincidunt.</p>
+                        <p class="text-justify">Sabemos que la mastectomía es un tema importante y emocionalmente cargado. Queremos brindarte un espacio seguro para que puedas expresar tus sentimientos y compartir tus vivencias. A continuación, te invitamos a responder algunas preguntas:</p>
                         <div class="grid grid-cols-4 gap-4 pt-9">
                             <div class="mt-6">
                                 <img src="{{ asset('/img/cancer.svg') }}" width="100%"  alt="Descripción de la imagen" usemap="#mi-mapa" >
@@ -113,8 +113,7 @@
                             <div class="grid grid-rows-4 col-start-2 col-span-3 ">
                                <div class="border-solid border-2 border-Primario container mt-6">
                                     <div class="p-3 text-xl">
-                                        <p>¿Cuál fue tu reacción inicial al enterarte de que necesitabas una 
-                                            mastectomía?</p>
+                                        <p>¿Cómo te sientes con respecto a la mastectomía?</p>
                                             <textarea wire:model="pregunta1" name="pregunta1" :value="old('pregunta1')" id="pregunta1" cols="30" rows="3" autofocus class="  w-full border-b-black autofill:bg-white border-2 border-transparent bg-white focus:border-Secundario focus:bg-white focus:outline-none"></textarea>
                                         
     
@@ -135,8 +134,7 @@
     
                                <div class="border-solid border-2 border-Primario container mt-6">
                                 <div class="p-3 text-xl">
-                                    <p>¿Cuál fue tu reacción inicial al enterarte de que necesitabas una 
-                                        mastectomía?</p>
+                                    <p>¿Cómo fue tu experiencia durante el proceso de la mastectomía?</p>
                                         <textarea wire:model="pregunta3" name="pregunta3" :value="old('pregunta3')" id="pregunta3" cols="30" rows="3" class="  w-full border-b-black autofill:bg-white border-2 border-transparent bg-white focus:border-Secundario focus:bg-white focus:outline-none"></textarea>
                                     
     
@@ -146,8 +144,8 @@
     
                            <div class="border-solid border-2 border-Primario container mt-6">
                             <div class="p-3 text-xl">
-                                <p>¿Cuál fue tu reacción inicial al enterarte de que necesitabas una 
-                                    mastectomía?</p>
+                                <p>¿Cómo afectó la mastectomía a tu vida cotidiana y actividades 
+                                    diarias?</p>
                                     <textarea wire:model="pregunta4" name="pregunta4" :value="old('pregunta4')" id="pregunta4" cols="30" rows="3" class="  w-full border-b-black autofill:bg-white border-2 border-transparent bg-white focus:border-Secundario focus:bg-white focus:outline-none"></textarea>
                                 
     

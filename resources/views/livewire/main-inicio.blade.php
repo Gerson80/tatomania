@@ -59,7 +59,7 @@
         </div>
         
     
-        <div class="flex md:mx-14 md:text-3xl text-base  md:m-8">
+        <div class="flex md:mx-14 md:text-3xl text-base text-gray-700 md:m-8">
             
             
             <div class="w-1/4 ">
@@ -100,16 +100,17 @@
     
     </div>
     @elseif($contenido==1)
-    <div>
+    <div class="text-gray-700">
             
         <div>
             <div class="md:text-3xl text-base grid place-items-center">
                 <x-circulo-preguntas nombre="¿Cómo inicio?"/>
             </div>
-            <x-cuadro-pregunta titulo="¿Acceder a registrar?" texto="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce congue sem euismod, pretium nibh vel, blandit orci. Nam at dolor dolor. Phasellus sit amet dignissim ligula, consequat venenatis tellus. Pellentesque blandit velit et ante blandit tempor. Suspendisse ut sollicitudin diam. Phasellus fermentum, ex id blandit placerat, sem nisi commodo augue"/>
-            <x-cuadro-pregunta titulo="Procede a contestar formulario" texto="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce congue sem euismod, pretium nibh vel, blandit orci. Nam at dolor dolor. Phasellus sit amet dignissim ligula, consequat venenatis tellus. Pellentesque blandit velit et ante blandit tempor. Suspendisse ut sollicitudin diam. Phasellus fermentum, ex id blandit placerat, sem nisi commodo augue"/>
-            <x-cuadro-pregunta titulo="Esperar que se valide la información" texto="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce congue sem euismod, pretium nibh vel, blandit orci. Nam at dolor dolor. Phasellus sit amet dignissim ligula, consequat venenatis tellus. Pellentesque blandit velit et ante blandit tempor. Suspendisse ut sollicitudin diam. Phasellus fermentum, ex id blandit placerat, sem nisi commodo augue"/>
-            <x-cuadro-pregunta titulo="Una vez que se valide podras iniciar sesión" texto="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce congue sem euismod, pretium nibh vel, blandit orci. Nam at dolor dolor. Phasellus sit amet dignissim ligula, consequat venenatis tellus. Pellentesque blandit velit et ante blandit tempor. Suspendisse ut sollicitudin diam. Phasellus fermentum, ex id blandit placerat, sem nisi commodo augue"/>
+            <x-cuadro-pregunta titulo="¿Acceder a registrar?" texto="Lo primero que tienes que hacer es dirigirte al botón que dice -Registrarme ahora- el cual está ubicado en la parte central izquierda de la ventana principal, este les mandara a un formulario el cual deberán llenar.
+            La otra manera de registrarse es ingresando en el icono superior derecho, este les abrirá una ventana de Inicio de sección, en el mismo recuadro van a ver un enlace con la frase, -crear una cuenta-. Al presionarlo este mandará a un formulario el cual deberán llenar. "/>
+            <x-cuadro-pregunta titulo="Procede a contestar formulario" texto="El siguiente formulario es parte del proceso de solicitud de ingreso y nos brinda información valiosa sobre tu experiencia y sentimientos en relación con la mastectomía. Estas preguntas nos ayudarán a evaluar tu solicitud de manera integral y decidir si cumples con los requisitos para unirte."/>
+            <x-cuadro-pregunta titulo="Esperar que se valide la información" texto="Durante el período de validación, nuestro equipo revisará y analizará detenidamente la información que has proporcionado. Esto puede llevar algún tiempo, ya que nos aseguramos de realizar un proceso minucioso y exhaustivo. Te pedimos paciencia y comprensión mientras llevamos a cabo esta importante etapa."/>
+            <x-cuadro-pregunta titulo="Una vez que se valide podras iniciar sesión" texto="Una vez que hayamos completado el proceso de validación y confirmemos que tus datos son correctos, recibirás una notificación por correo electrónico. Esta notificación te proporcionará las instrucciones necesarias para iniciar sesión en tu cuenta"/>
             
         </div>
     
@@ -118,13 +119,13 @@
         
     </div>
     @elseif($contenido==2)
-    <div>
+    <div class="text-gray-700">
             
         <div>
             <div class="md:text-3xl text-base grid place-items-center">
                 <x-circulo-preguntas nombre="¿Que necesito?"/>
             </div>
-            <x-cuadro-pregunta titulo="Para poder acceder necesitas:" texto="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce congue sem euismod, pretium nibh vel, blandit orci. Nam at dolor dolor. Phasellus sit amet dignissim ligula, consequat venenatis tellus. Pellentesque blandit velit et ante blandit tempor. Suspendisse ut sollicitudin diam. Phasellus fermentum, ex id blandit placerat, sem nisi commodo augue"/>
+            <x-cuadro-pregunta titulo="Para poder acceder necesitas:" texto="Debido a la naturaleza íntima y personal de los temas discutidos en nuestra plataforma, hemos decidido mantener la aplicación cerrada. Esto significa que solo las mujeres que se encuentren en la situación de haber pasado por una mastectomía podrán ingresar y participar en nuestra comunidad. Esto nos permite garantizar un ambiente seguro, confidencial y libre de juicios."/>
            
         </div>
     
@@ -133,16 +134,16 @@
         
     </div>
     @elseif($contenido==3)
-    <div>
+    <div class="text-gray-700">
             
         <div>
             <div class="md:text-3xl text-base grid place-items-center">
                 <x-circulo-preguntas nombre="¿Por qué tatuarse?"/>
             </div>
-            <x-cuadro-pregunta titulo="Los tatuajes son un cuidado" texto="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce congue sem euismod, pretium nibh vel, blandit orci. Nam at dolor dolor. Phasellus sit amet dignissim ligula, consequat venenatis tellus. Pellentesque blandit velit et ante blandit tempor. Suspendisse ut sollicitudin diam. Phasellus fermentum, ex id blandit placerat, sem nisi commodo augue"/>
-            <x-cuadro-pregunta titulo="Minimiza la cicatriz" texto="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce congue sem euismod, pretium nibh vel, blandit orci. Nam at dolor dolor. Phasellus sit amet dignissim ligula, consequat venenatis tellus. Pellentesque blandit velit et ante blandit tempor. Suspendisse ut sollicitudin diam. Phasellus fermentum, ex id blandit placerat, sem nisi commodo augue"/>
-            <x-cuadro-pregunta titulo="físico, estético y emocional" texto="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce congue sem euismod, pretium nibh vel, blandit orci. Nam at dolor dolor. Phasellus sit amet dignissim ligula, consequat venenatis tellus. Pellentesque blandit velit et ante blandit tempor. Suspendisse ut sollicitudin diam. Phasellus fermentum, ex id blandit placerat, sem nisi commodo augue"/>
-            <x-cuadro-pregunta titulo="No te conformes" texto="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce congue sem euismod, pretium nibh vel, blandit orci. Nam at dolor dolor. Phasellus sit amet dignissim ligula, consequat venenatis tellus. Pellentesque blandit velit et ante blandit tempor. Suspendisse ut sollicitudin diam. Phasellus fermentum, ex id blandit placerat, sem nisi commodo augue"/>
+            <x-cuadro-pregunta titulo="Los tatuajes son un cuidado" texto="Los tatuajes pueden considerarse una forma de cuidado personal para muchas personas, incluidas aquellas que han pasado por una mastectomía. Después de enfrentar una experiencia tan desafiante y transformadora como la mastectomía, algunas mujeres encuentran en los tatuajes una manera de expresar su individualidad y recuperar el control de su imagen corporal."/>
+            <x-cuadro-pregunta titulo="Minimiza la cicatriz" texto="Los tatuajes pueden ofrecer una opción estética para minimizar la apariencia de las cicatrices resultantes de la mastectomía. Si bien los tatuajes no pueden eliminar completamente las cicatrices, pueden ayudar a camuflarlas y redirigir la atención hacia un diseño artístico."/>
+            <x-cuadro-pregunta titulo="físico, estético y emocional" texto="Los tatuajes después de la mastectomía ofrecen beneficios físicos, estéticos, emocionales y de cuidado mutuo. Físicamente, pueden camuflar cicatrices y mejorar la apariencia. Estéticamente, permiten la expresión individual y la personalización del cuerpo. Emocionalmente, promueven la sanación y la aceptación del cuerpo transformado. Además, al conectarse con mujeres que han pasado por la misma situación, se crea un ambiente de cuidado mutuo que brinda apoyo y comprensión invaluable. Los tatuajes se convierten en una forma poderosa de empoderamiento y cuidado integral tanto para uno mismo como para las mujeres que comparten esta experiencia."/>
+            <x-cuadro-pregunta titulo="No te conformes" texto="Los tatuajes se convierten en un canal de comunicación que trasciende las palabras y permite expresar tu historia y emociones de una manera única. A través de los diseños artísticos en tus tatuajes, puedes mostrar tu transformación, fortaleza y belleza interna. Estos tatuajes se convierten en símbolos de superación y una fuente de inspiración tanto para ti como para otras mujeres que enfrentan desafíos similares."/>
             
         </div>
     
@@ -151,7 +152,7 @@
         
     </div>
     @else
-    <div>
+    <div class="text-gray-700">
             
         <div>
             <div class="md:text-3xl text-base grid place-items-center">

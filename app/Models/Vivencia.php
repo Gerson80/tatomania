@@ -11,10 +11,21 @@ class Vivencia extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'vivencia',
+        'user_id'
+ 
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
+
+    public function comentarios()
+{
+    return $this->hasMany(Comentariovivencia::class);
+}
 
 
 }

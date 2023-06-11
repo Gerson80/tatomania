@@ -11,7 +11,7 @@
             <p class=" text-lg p-2">{{ $titulo }}</p>
         </div>
         <div class="w-4/6">
-            <p class="pt-4 text-base p-2">{{ $texto }}</p>
+            <p class="pt-4 text-base p-2 text-justify mr-4">{{ $texto }}</p>
         </div>
         
     </div>

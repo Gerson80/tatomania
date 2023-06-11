@@ -17,7 +17,7 @@ class Comentariostatu extends Model
     protected $fillable = [
         'comentario',
         'user_id',
-        'publicacionestatu_id'
+        'vivencia_id'
  
     ];
 

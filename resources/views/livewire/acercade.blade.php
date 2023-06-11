@@ -1,6 +1,6 @@
 <div>
     @if($contenido==0)
-    <div>
+    <div class="text-gray-700">
         <x-icono-mujer/>
         <div class="text-center">
             <div class="text-2xl pb-7 pt-2">
@@ -84,7 +84,7 @@
         </div>
     </div>
     @elseif($contenido==1)
-    <div>
+    <div class="text-gray-700">
             
         <div>
             <div class="md:text-3xl text-base grid place-items-center">
@@ -102,7 +102,7 @@
         
     </div>
     @elseif($contenido==2)
-    <div>
+    <div class="text-gray-700">
             
         <div>
             <div class="md:text-3xl text-base grid place-items-center">
@@ -117,7 +117,7 @@
         
     </div>
     @elseif($contenido==3)
-    <div>
+    <div class="text-gray-700">
             
         <div>
             <div class="md:text-3xl text-base grid place-items-center">
@@ -135,7 +135,7 @@
         
     </div>
     @else
-    <div>
+    <div class="text-gray-700">
             
         <div>
             <div class="md:text-3xl text-base grid place-items-center">

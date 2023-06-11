@@ -16,6 +16,13 @@ class Comentariovivencia extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'comentario',
+        'user_id',
+        'vivencia_id'
+ 
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -23,7 +30,7 @@ class Comentariovivencia extends Model
 
     public function vivencia(): BelongsTo
     {
-        return $this->belongsTo(Publicacionestatu::class);
+        return $this->belongsTo(Vivencia::class);
     }
 
     public function likevivencias(): HasMany//esta relacion se llama topics

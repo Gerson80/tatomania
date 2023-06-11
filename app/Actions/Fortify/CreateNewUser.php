@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
+use Livewire\WithFileUploads;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -24,8 +25,7 @@ class CreateNewUser implements CreatesNewUsers
     {
         
 
-
-
+        
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'last_name'=>['required'],
@@ -34,13 +34,14 @@ class CreateNewUser implements CreatesNewUsers
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
+        $file = request()->file('foto');
+        $fotoBLOB = base64_encode(file_get_contents($file->getRealPath()));
         
-
         $user = User::create([
             'name' => $input['name'],
             'last_name' => $input['last_name'],
             'edad' => $input['edad'],
-            'foto' => $input['foto'],
+            'foto' => $fotoBLOB,
             'status' => 'false',
             'estado' => $input['estado'],
             'email' => $input['email'],
