@@ -195,7 +195,7 @@ public function mostrarCPublicacion($cardId)
     $this->cuentame = $elemento->experiencia;
     $this->numero = $elemento->numero;
     $this->correo = $elemento->email;
-
+    $this->emit('contenidoActualizado2');
        
     $this->modalDatosPublicacion = !$this->modalDatosPublicacion;
 
@@ -246,7 +246,7 @@ public function editarComentario()
         
         $elemento = Comentariostatu::find($this->selectedCardId2);
         $this->comentario =  $elemento->comentario;
-        
+        $this->emit('contenidoActualizado');
        
        
     }
@@ -270,23 +270,26 @@ public function editarComentario()
         $this->modalOpcionesComentario = !$this->modalOpcionesComentario;
         $this->emit('mensajeEliminar2',$this->selectedCardId2); 
         $card = Comentariostatu::find($this->selectedCardId2);
-        if ($card) {
-            $card->delete();
-            $this->selectedCardId2 = null;
-            $this->emit('refreshComponent');
-        }
         
         
     }
 
     public function eliminarArchivoo($id)
     {
-        $card = Comentariostatu::find($this->selectedCardId2);
+        $card = Comentariostatu::find($id);
         if ($card) {
             $card->delete();
             $this->selectedCardId2 = null;
             $this->emit('refreshComponent');
         }
+    }
+
+    public function getListeners()
+    {
+        return [
+            'eliminarArchivoo' => 'eliminarArchivoo',
+            'eliminarArchivo' => 'eliminarArchivo',
+        ];
     }
 
 

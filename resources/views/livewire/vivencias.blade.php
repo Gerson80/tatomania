@@ -38,52 +38,57 @@
                 </div>
             </div>
         </div>
-   @foreach($vivencias as $vivencia)
-        
-        
-            <div class="flex py-5">
-                <div class="w-1/12">
-                </div>
-                <div class="w-10/12 relative flex bg-transparent text-white border-solid border-2 border-Adicional">
-                    @if($vivencia->user->id==$user->id)
-                    <button wire:click="opciones({{ $vivencia->id }})"  class=" m-2 absolute inset-y-0 right-0 transition  duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 flex justify-center h-0  sm:h-6  items-center w-10   bg-cover " style="background-image: url('{{ asset('/img/opciones.svg') }}')"></button>
-                    @endif
-                    <div class="w-1/6  flex justify-center items-center">
-                        <img src="data:image/jpeg;base64,{{ $vivencia->user->foto }}" width="130" alt="Descripción de la imagen" class="rounded-full my-5 ml-3">
+
+    @if(!$cualVentanaEntro)
+    <div>
+        @foreach($vivencias as $vivencia)
+                
+                
+                <div class="flex py-5">
+                    <div class="w-1/12">
                     </div>
-                    <div class="w-5/6 text-gray-700">
-                        <p class="mt-6 ml-6 text-xl font-semibold uppercase">{{$vivencia->user->name}} {{$vivencia->user->last_name}}</p>
-                        <div class="ml-4 text-justify">
+                    <div class="w-10/12 relative flex bg-transparent text-white border-solid border-2 border-Adicional">
+                        @if($vivencia->user->id==$user->id)
+                        <button wire:click="opciones({{ $vivencia->id }})"  class=" m-2 absolute inset-y-0 right-0 transition  duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 flex justify-center h-0  sm:h-6  items-center w-10   bg-cover " style="background-image: url('{{ asset('/img/opciones.svg') }}')"></button>
+                        @endif
+                        <div class="w-1/6  flex justify-center items-center">
+                            <img src="data:image/jpeg;base64,{{ $vivencia->user->foto }}" width="130" alt="Descripción de la imagen" class="rounded-full my-5 ml-3">
+                        </div>
+                        <div class="w-5/6 text-gray-700">
+                            <p class="mt-6 ml-6 text-xl font-semibold uppercase">{{$vivencia->user->name}} {{$vivencia->user->last_name}}</p>
+                            <div class="ml-4 text-justify">
+                                
+                                <p class=" text-lg p-2 mr-6 mb-2">{{$vivencia->vivencia}}</p>
                             
-                            <p class=" text-lg p-2 mr-6 mb-2">{{$vivencia->vivencia}}</p>
+                            </div>
+                            <div class="grid place-items-center mr-9">
+                                <div class="mb-4 pr-9">
+                                    <x-button type="submit" wire:click="abrirComentario({{ $vivencia->id }})" class="mx-2">
+                                        {{ $vivencia->comentarios->count() }}
+                                        Comentarios
+                                    </x-button>
+                                    <x-button type="submit"  class="mx-2">
+                                        <img src="{{ asset('/img/like.svg') }}" width="15" alt="Descripción de la imagen" usemap="#mi-mapa" class="">
+                                        
+                                    </x-button>
+                                    <x-button type="submit"  class="mx-2">
+                                        enviar mensaje
+                                    </x-button>
+
+                                </div>
+                            </div>
+
+
                         
                         </div>
-                        <div class="grid place-items-center mr-9">
-                            <div class="mb-4 pr-9">
-                                <x-button type="submit" wire:click="abrirComentario({{ $vivencia->id }})" class="mx-2">
-                                    {{ $vivencia->comentarios->count() }}
-                                    Comentarios
-                                </x-button>
-                                <x-button type="submit"  class="mx-2">
-                                    <img src="{{ asset('/img/like.svg') }}" width="15" alt="Descripción de la imagen" usemap="#mi-mapa" class="">
-                                    
-                                </x-button>
-                                <x-button type="submit"  class="mx-2">
-                                    enviar mensaje
-                                </x-button>
-
-                            </div>
-                        </div>
-
-
-                    
+                        
                     </div>
-                    
                 </div>
-            </div>
+            
         
-       
-    @endforeach
+        @endforeach
+    </div>
+    @endif
     @if($modalOpciones)
                     <div class=" fixed inset-0 flex items-center justify-center z-50 text-gray-800">
                         <div class="absolute inset-0 bg-black opacity-50"></div>
@@ -93,7 +98,7 @@
                         <div class=" bg-white rounded-2xl  relative z-10 w-80">
                             <div class="bg-Primario m-1 rounded-xl h-8">
                             <p class="ml-3 pt-1">Hola {{ $user->name }}</p>
-                                <a  wire:click="opciones2"> <img src="{{ asset('/img/x.svg') }}" width="15" height="15" alt="Descripción de la imagen" usemap="#mi-mapa" class="my-3 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 absolute inset-y-0 right-0 m-2"></a>
+                                <button  wire:click="opciones2"> <img src="{{ asset('/img/x.svg') }}" width="15" height="15" alt="Descripción de la imagen" usemap="#mi-mapa" class="my-3 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 absolute inset-y-0 right-0 m-2"></button>
 
                             </div>
                             <div class="grid text-3xl place-items-center mt-6">
@@ -173,50 +178,53 @@
             </div>
        </div>
 
-
-       @foreach($comentarios as $comentario)
-        
-        @if($comentario->vivencia_id == $vivenciaComentarioId)
-            <div class="flex py-5">
-                <div class="w-1/12">
-                </div>
-                <div class="w-10/12 relative flex bg-transparent text-white border-solid border-2 border-Adicional">
-                    @if($comentario->user->id==$user->id)
-                    <button wire:click="opcionesComentario({{ $comentario->id }})"  class=" m-2 absolute inset-y-0 right-0 transition  duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 flex justify-center h-0  sm:h-6  items-center w-10   bg-cover " style="background-image: url('{{ asset('/img/opciones.svg') }}')"></button>
-                    @endif
-                    <div class="w-1/6  flex justify-center items-center">
-                        <img src="data:image/jpeg;base64,{{ $comentario->user->foto }}" width="130" alt="Descripción de la imagen" class="rounded-full my-5 ml-3">
-                        <img src="{{ asset($img) }}" alt="Imagen">
-                        {{ $comentario->user->foto }}
+       @if(!$cualVentanaEntro2)
+       <div>
+            @foreach($comentarios as $comentario)
+            
+            @if($comentario->vivencia_id == $vivenciaComentarioId)
+                <div class="flex py-5">
+                    <div class="w-1/12">
                     </div>
-                    <div class="w-5/6 text-gray-700">
-                        <p class="mt-6 ml-6 text-xl font-semibold uppercase">{{$comentario->user->name}} {{$comentario->user->last_name}}</p>
-                        <div class="ml-4 text-justify">
+                    <div class="w-10/12 relative flex bg-transparent text-white border-solid border-2 border-Adicional">
+                        @if($comentario->user->id==$user->id)
+                        <button wire:click="opcionesComentario({{ $comentario->id }})"  class=" m-2 absolute inset-y-0 right-0 transition  duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 flex justify-center h-0  sm:h-6  items-center w-10   bg-cover " style="background-image: url('{{ asset('/img/opciones.svg') }}')"></button>
+                        @endif
+                        <div class="w-1/6  flex justify-center items-center">
+                            <img src="data:image/jpeg;base64,{{ $comentario->user->foto }}" width="130" alt="Descripción de la imagen" class="rounded-full my-5 ml-3">
+                            <img src="{{ asset($img) }}" alt="Imagen">
+                            {{ $comentario->user->foto }}
+                        </div>
+                        <div class="w-5/6 text-gray-700">
+                            <p class="mt-6 ml-6 text-xl font-semibold uppercase">{{$comentario->user->name}} {{$comentario->user->last_name}}</p>
+                            <div class="ml-4 text-justify">
+                                
+                                <p class=" text-lg p-2 mr-6 mb-2">{{$comentario->comentario}}</p>
                             
-                            <p class=" text-lg p-2 mr-6 mb-2">{{$comentario->comentario}}</p>
+                            </div>
+                            <div class="grid place-items-center mr-9">
+                                <div class="mb-4 pr-9">
+                                    <x-button type="submit"  class="mx-2">
+                                        <img src="{{ asset('/img/like.svg') }}" width="15" alt="Descripción de la imagen" usemap="#mi-mapa" class="">
+                                    </x-button>
+                                    <x-button type="submit"  class="mx-2">
+                                        enviar mensaje
+                                    </x-button>
+
+                                </div>
+                            </div>
+
+
                         
                         </div>
-                        <div class="grid place-items-center mr-9">
-                            <div class="mb-4 pr-9">
-                                <x-button type="submit"  class="mx-2">
-                                    <img src="{{ asset('/img/like.svg') }}" width="15" alt="Descripción de la imagen" usemap="#mi-mapa" class="">
-                                </x-button>
-                                <x-button type="submit"  class="mx-2">
-                                    enviar mensaje
-                                </x-button>
-
-                            </div>
-                        </div>
-
-
-                    
+                        
                     </div>
-                    
                 </div>
-            </div>
-        @endif
-       
-        @endforeach
+            @endif
+        
+            @endforeach
+       </div>
+       @endif
 
 
         @if($modalOpcionesComentario)
@@ -228,7 +236,7 @@
             <div class=" bg-white rounded-2xl  relative z-10 w-80">
                 <div class="bg-Primario m-1 rounded-xl h-8">
                 <p class="ml-3 pt-1">Hola {{ $user->name }}</p>
-                    <a  wire:click="opcionesComentario2"> <img src="{{ asset('/img/x.svg') }}" width="15" height="15" alt="Descripción de la imagen" usemap="#mi-mapa" class="my-3 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 absolute inset-y-0 right-0 m-2"></a>
+                    <button  wire:click="opcionesComentario2"> <img src="{{ asset('/img/x.svg') }}" width="15" height="15" alt="Descripción de la imagen" usemap="#mi-mapa" class="my-3 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 absolute inset-y-0 right-0 m-2"></button>
 
                 </div>
                 <div class="grid text-3xl place-items-center mt-6">
@@ -259,18 +267,38 @@
 
 
 
-
 <script>
     document.addEventListener('livewire:load', function () {
         Livewire.on('mensajeEliminar', function (id) {
-            Swal.fire({
+        Swal.fire({
+            title: '¿Segura que lo deseas eliminar?',
+            iconHtml: '<img src="{{ asset('img/delete.svg') }}" class="custom-icon">',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Eliminar',
+            buttonsStyling: false,
+            customClass:{
+                icon: 'custom-icon',
+                confirmButton: 'mr-5 inline-flex items-center px-4 py-2 bg-Primario border border-transparent rounded-md font-semibold text-xs text-white transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 uppercase tracking-widest hover:bg-Secundario focus:Secundario active:bg-Secundario focus:outline-none focus:Adicional focus:bg-Secundario focus:ring-offset-2 transition ease-in-out duration-150',
+                cancelButton: 'ml-5 inline-flex items-center px-4 py-2 bg-Primario border border-transparent rounded-md font-semibold text-xs text-white transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 uppercase tracking-widest hover:bg-Secundario focus:Secundario active:bg-Secundario focus:outline-none focus:Adicional focus:bg-Secundario focus:ring-offset-2 transition ease-in-out duration-150'
+            },
+            }).then((result) => {
+            if (result.isConfirmed) {
+                Livewire.emit('eliminarArchivo',id);
+                Swal.fire({
                     
                     icon: 'success',
                     title: 'Se ha eliminado correctamente',
                     showConfirmButton: false,
-                    timer: 2500
+                    timer: 1500
                 })
-                location.reload();
+                
+            }
+            });
+    });
+    Livewire.on('refreshComponent', function () {
+        location.reload();
     });
         Livewire.on('vivenciaAgregado', function () {
         Swal.fire({
@@ -357,14 +385,39 @@
     });
     Livewire.on('mensajeEliminar2', function (id) {
         Swal.fire({
+            title: '¿Segura que lo deseas eliminar?',
+            iconHtml: '<img src="{{ asset('img/delete.svg') }}" class="custom-icon">',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Eliminar',
+            buttonsStyling: false,
+            customClass:{
+                icon: 'custom-icon',
+                confirmButton: 'mr-5 inline-flex items-center px-4 py-2 bg-Primario border border-transparent rounded-md font-semibold text-xs text-white transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 uppercase tracking-widest hover:bg-Secundario focus:Secundario active:bg-Secundario focus:outline-none focus:Adicional focus:bg-Secundario focus:ring-offset-2 transition ease-in-out duration-150',
+                cancelButton: 'ml-5 inline-flex items-center px-4 py-2 bg-Primario border border-transparent rounded-md font-semibold text-xs text-white transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 uppercase tracking-widest hover:bg-Secundario focus:Secundario active:bg-Secundario focus:outline-none focus:Adicional focus:bg-Secundario focus:ring-offset-2 transition ease-in-out duration-150'
+            },
+            }).then((result) => {
+            if (result.isConfirmed) {
+                Livewire.emit('eliminarArchivoo',id);
+                Swal.fire({
                     
                     icon: 'success',
                     title: 'Se ha eliminado correctamente',
                     showConfirmButton: false,
-                    timer: 2500
+                    timer: 1500
                 })
-                location.reload();
+                
+            }
+            });
     });
+    Livewire.on('contenidoActualizado', function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+    });
+
     
     
 });

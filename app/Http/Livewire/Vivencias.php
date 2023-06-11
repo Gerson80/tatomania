@@ -83,6 +83,7 @@ public function editarVivencia()
         $this->cualVentanaEntro = !$this->cualVentanaEntro;
         $elemento = Vivencia::find($this->selectedCardId);
         $this->vivencia =  $elemento->vivencia;
+        $this->emit('contenidoActualizado');
        
     }
     public function actualizarVivencia()
@@ -91,7 +92,7 @@ public function editarVivencia()
         $elemento = Vivencia::find($this->selectedCardId);
 
         
-        $elemento->vivencia = $this->vivencia;
+        $elemento->vivencia =strtolower( $this->vivencia);
         $elemento->save();
         $this->emit('vivenciaActualizada');
         $this->reset([ 'vivencia' ]);
@@ -100,12 +101,7 @@ public function editarVivencia()
     public function deleteVive()
     {   $this->modalOpciones = !$this->modalOpciones;
         $this->emit('mensajeEliminar',$this->selectedCardId); 
-        $card = Vivencia::find($this->selectedCardId);
-        if ($card) {
-            $card->delete();
-            $this->selectedCardId = null;
-            $this->emit('refreshComponent');
-        }
+     
     }
 
     public function eliminarArchivo($id)
@@ -118,14 +114,13 @@ public function editarVivencia()
         }
     }
 
-
     public function abrirComentario($id)
     {
         $this->vivenciaComentarioId=$id;
         $this->vivenciaComentario = Vivencia::find($id);
         $this->modalComentario = !$this->modalComentario;
 
-        $imagenBinaria = $vivenciaComentario->user->foto; // Aquí debes colocar tu cadena de imagen binaria
+        $imagenBinaria = $this->vivenciaComentario->user->foto; // Aquí debes colocar tu cadena de imagen binaria
 
         // Guardar la imagen en el sistema de archivos
         $nombreArchivo = 'imagen.jpg'; // Especifica el nombre que deseas para el archivo
@@ -171,7 +166,7 @@ public function editarComentario()
         
         $elemento = Comentariovivencia::find($this->selectedCardId2);
         $this->comentario =  $elemento->comentario;
-        
+        $this->emit('contenidoActualizado');
        
        
     }
@@ -194,16 +189,11 @@ public function editarComentario()
         $this->modalOpcionesComentario = !$this->modalOpcionesComentario;
         $this->emit('mensajeEliminar2',$this->selectedCardId2); 
         $card = Comentariovivencia::find($this->selectedCardId2);
-        if ($card) {
-            $card->delete();
-            $this->selectedCardId2 = null;
-            $this->emit('refreshComponent');
-        }
         
         
     }
 
-    public function eliminarArchivo2($id)
+    public function eliminarArchivoo($id)
     {
         $valor = $this->selectedCardId2;
         $card = Comentariovivencia::find($id);
@@ -212,5 +202,12 @@ public function editarComentario()
             $this->selectedCardId2 = null;
             $this->emit('refreshComponent');
         }
+    }
+    public function getListeners()
+    {
+        return [
+            'eliminarArchivoo' => 'eliminarArchivoo',
+            'eliminarArchivo' => 'eliminarArchivo',
+        ];
     }
 }
