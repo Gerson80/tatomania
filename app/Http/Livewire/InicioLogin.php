@@ -21,6 +21,7 @@ class InicioLogin extends Component
 {
     use WithFileUploads;
     
+    public $chat = false;
     public $selectedCard;
     public $usuarios;
     public $user;
@@ -61,36 +62,72 @@ class InicioLogin extends Component
 
 
 
+    public function activarChat()
+    {   
+        $this->chat = !$this->chat;
+        
+    }
 
     
     public function enviarDatos()
-    {   
-        
-        $fotoBLOB = base64_encode(file_get_contents($this->imagen->getRealPath()));
-        Publicacionestatu::create([
-            
-            
-            'foto' => $fotoBLOB,
-            'categoria' => $this->categoria,
-            'historia' => strtolower($this->historia),
-            'name' => strtolower( $this->nombre),
-            'last_name' => strtolower(  $this->apellidos),
-            'experiencia' => strtolower( $this->cuentame) ,
-            'numero' => $this->numero,
-            'email' => strtolower( $this->correo) ,
-            'pais' => strtolower( $this->pais),
-            'user_id' => $this-> user->id,
-            'autorizado' => $this->autorizado,
-            
-            
-        ]);
-        $this->reset([ 'imagen','categoria','historia','nombre', 'apellidos','cuentame','numero','correo' ]);
-        $this->emit('mensajeEnviado');
+{   
+    // Definir mensajes de error personalizados
+    $mensajes = [
+        'imagen.required' => '¡Ups! Parece que olvidaste subir una imagen.',
+        'imagen.dimensions' => 'La imagen que has seleccionado es demasiado grande.',
+        'categoria.required' => 'Por favor, selecciona una categoría para tu historia. ¡Tu historia es importante!',
+        'historia.required' => 'Cuéntanos tu historia. Queremos conocer tu historia acerca de este tatuaje.',
+        'historia.min' => 'Tu historia es muy valiosa. Por favor, asegúrate de escribir al menos 50 caracteres para compartir tu experiencia.',
+        'nombre.required' => 'Por favor, ingresa el nombre.',
+        'apellidos.required' => 'Ingresa el apellido.',
+        'cuentame.required' => 'Este campo es crucial para nosotros. Por favor, cuéntanos más acerca de tu experiencia con el tatuador.',
+        'cuentame.min' => 'Tu experiencia merece ser escuchada. Por favor, cuéntanos más acerca de tu historia. Escribe al menos 50 caracteres.',
+        'numero.required' => 'Queremos saber el número del tatuador, por favor, ingrésalo.',
+        'numero.regex' => 'El número de teléfono debe tener 10 dígitos numéricos. Por favor, asegúrate de ingresarlo correctamente.',
+        'correo.required' => 'Por favor ingresa el correo electrónico para que nos podamos comunicar. ',
+        'correo.email' => 'Por favor, ingresa un correo electrónico válido.',
        
-    }
+    ];
 
+    // Validar los datos antes de crear la publicación
+    $validatedData = $this->validate([
+        'imagen' => 'required|dimensions:max_width=1500,max_height=1500',
+        'categoria' => 'required',
+        'historia' =>  ['required','min:50'],
+        'nombre' => 'required',
+        'apellidos' => 'required',
+        'cuentame' =>  ['required','min:50'],
+        'numero' =>  ['required', 'regex:/^[0-9]{10}$/'],
+        'correo' => ['required', 'string', 'email', 'max:255'],
+       
+        
+    ], $mensajes);
+
+    // Convertir la imagen a base64
+    $fotoBLOB = base64_encode(file_get_contents($this->imagen->getRealPath()));
+
+    // Crear la publicación utilizando los datos validados
+    Publicacionestatu::create([
+        'foto' => $fotoBLOB,
+        'categoria' => $validatedData['categoria'],
+        'historia' => strtolower($validatedData['historia']),
+        'name' => strtolower($validatedData['nombre']),
+        'last_name' => strtolower($validatedData['apellidos']),
+        'experiencia' => strtolower($validatedData['cuentame']),
+        'numero' => $validatedData['numero'],
+        'email' => strtolower($validatedData['correo']),
+        'pais' => $this->pais,
+        'user_id' => $this->user->id,
+        'autorizado' => $this->autorizado,
+    ]);
+
+    // Restablecer los campos después de enviar los datos
+    $this->reset(['imagen', 'categoria', 'historia', 'nombre', 'apellidos', 'cuentame', 'numero', 'correo']);
+    $this->emit('mensajeEnviado');
+}
     public function editarPublicacion()
     {  
+        $this->emit('contenidoActualizado2'); 
         $this->modalAgregar = !$this->modalAgregar;
         $this->cualVentanaEntro = !$this->cualVentanaEntro;
         
@@ -109,32 +146,57 @@ class InicioLogin extends Component
     }
 
     public function actualizarDatos()
-    {   
-        
-        $elemento = Publicacionestatu::find($this->selectedCardId);
+{
+    // Definir mensajes de error personalizados
+    $mensajes = [
+        'imagen.dimensions' => 'La imagen que has seleccionado es demasiado grande.',
+        'categoria.required' => 'Por favor, selecciona una categoría para tu historia. ¡Tu historia es importante!',
+        'historia.required' => 'Cuéntanos tu historia. Queremos conocer tu historia acerca de este tatuaje.',
+        'historia.min' => 'Tu historia es muy valiosa. Por favor, asegúrate de escribir al menos 50 caracteres para compartir tu experiencia.',
+        'nombre.required' => 'Por favor, ingresa el nombre.',
+        'apellidos.required' => 'Ingresa el apellido.',
+        'cuentame.required' => 'Este campo es crucial para nosotros. Por favor, cuéntanos más acerca de tu experiencia con el tatuador.',
+        'cuentame.min' => 'Tu experiencia merece ser escuchada. Por favor, cuéntanos más acerca de tu historia. Escribe al menos 50 caracteres.',
+        'numero.required' => 'Queremos saber el número del tatuador, por favor, ingrésalo.',
+        'numero.regex' => 'El número de teléfono debe tener 10 dígitos numéricos. Por favor, asegúrate de ingresarlo correctamente.',
+        'correo.required' => 'Por favor ingresa el correo electrónico para que nos podamos comunicar.',
+        'correo.email' => 'Por favor, ingresa un correo electrónico válido.',
+    ];
 
-        if ($this->imagen) {
-            $fotoBLOB3 = base64_encode(file_get_contents($this->imagen->getRealPath()));
-            $elemento->foto = $fotoBLOB3;
-            
-            
-        }else{
-            $fotoBLOB2 =$this->imagen2;
-            $elemento->foto = $fotoBLOB2;
-        }
+    // Validar los datos antes de actualizar la publicación
+    $validatedData = $this->validate([
+        'imagen' => 'nullable|dimensions:max_width=1500,max_height=1500',
+        'categoria' => 'required',
+        'historia' => ['required', 'min:50'],
+        'nombre' => 'required',
+        'apellidos' => 'required',
+        'cuentame' => ['required', 'min:50'],
+        'numero' => ['required', 'regex:/^[0-9]{10}$/'],
+        'correo' => ['required', 'string', 'email', 'max:255'],
+    ], $mensajes);
 
-        $elemento->categoria = $this->categoria;
-        $elemento->historia = strtolower($this->historia);
-        $elemento->name = strtolower($this->nombre);
-        $elemento->last_name =  strtolower($this->apellidos);
-        $elemento->experiencia =  strtolower($this->cuentame);
-        $elemento->numero =  strtolower($this->numero);
-        $elemento->email = strtolower($this->correo) ;
-        $elemento->save();
-        $this->emit('actializacionLista');
-        
-       
+    $elemento = Publicacionestatu::find($this->selectedCardId);
+
+    if ($this->imagen) {
+        $fotoBLOB3 = base64_encode(file_get_contents($this->imagen->getRealPath()));
+        $elemento->foto = $fotoBLOB3;
+    } else {
+        $fotoBLOB2 = $this->imagen2;
+        $elemento->foto = $fotoBLOB2;
     }
+
+    $elemento->categoria = $validatedData['categoria'];
+    $elemento->historia = strtolower($validatedData['historia']);
+    $elemento->name = strtolower($validatedData['nombre']);
+    $elemento->last_name = strtolower($validatedData['apellidos']);
+    $elemento->experiencia = strtolower($validatedData['cuentame']);
+    $elemento->numero = strtolower($validatedData['numero']);
+    $elemento->email = strtolower($validatedData['correo']);
+    $elemento->save();
+
+    $this->emit('actializacionLista');
+    
+}
     
     public function agregarNuevo()
     {   $this->modalAgregar = !$this->modalAgregar;
@@ -204,19 +266,25 @@ public function mostrarCPublicacion($cardId)
 
 public function cometarPublicacion()
 {
+    // Definir mensajes de error personalizados
+    $mensajes = [
+        'comentario.required' => 'Por favor, ingresa un comentario.',
+        'comentario.min' => 'El comentario debe tener al menos 50 caracteres.',
+    ];
+
+    // Validar los datos antes de crear el comentario
+    $validatedData = $this->validate([
+        'comentario' => ['required', 'min:50'],
+    ], $mensajes);
+
     $this->mostrarComentario = !$this->mostrarComentario;
     $elemento = Publicacionestatu::find($this->selectedCardId);
     Comentariostatu::create([
-            
-            
-        'comentario' => $this->comentario,
+        'comentario' => strtolower($validatedData['comentario']),
         'user_id' => $this->user->id,
         'publicacionestatu_id' => $elemento->id
-        
-        
-        
     ]);
-    $this->reset([ 'comentario' ]);
+    $this->reset(['comentario']);
     $this->emit('comentarioAgregado');
     $this->mostrarComentario = !$this->mostrarComentario;
 
@@ -253,13 +321,22 @@ public function editarComentario()
     public function actualizarComentario()
     {   
         
-        $elemento = Comentariostatu::find($this->selectedCardId2);
+        // Definir mensajes de error personalizados
+    $mensajes = [
+        'comentario.required' => 'Por favor, ingresa un comentario.',
+        'comentario.min' => 'El comentario debe tener al menos 50 caracteres.',
+    ];
 
-        
-        $elemento->comentario = $this->comentario;
-        $elemento->save();
-        $this->emit('actualComentario');
-        $this->reset([ 'comentario' ]);
+    // Validar los datos antes de actualizar el comentario
+    $validatedData = $this->validate([
+        'comentario' => ['required', 'min:50'],
+    ], $mensajes);
+
+    $elemento = Comentariostatu::find($this->selectedCardId2);
+    $elemento->comentario = strtolower($validatedData['comentario']);
+    $elemento->save();
+    $this->emit('actualComentario');
+    $this->reset(['comentario']);
         
         
        

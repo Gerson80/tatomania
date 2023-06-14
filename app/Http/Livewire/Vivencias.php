@@ -57,15 +57,28 @@ class Vivencias extends Component
 
     public function cometar()
 {
+    // Definir mensajes de error personalizados
+    $mensajes = [
+        'vivencia.required' => 'Por favor, comparte tus sentimientos y vivencias.',
+        'vivencia.min' => 'Tu vivencia es importante. Por favor, cuéntanos más acerca de tus sentimientos en al menos 50 caracteres.',
+    ];
+   
+
+    // Validar los datos antes de crear la vivencia
+    $validatedData = $this->validate([
+        'vivencia' => ['required', 'min:50'],
+    ], $mensajes);
+
     Vivencia::create([
-                
-        'vivencia' => $this->vivencia,
+        'vivencia' => $validatedData['vivencia'],
         'user_id' => $this->user->id
-        
     ]);
-    $this->reset([ 'vivencia' ]);
-    $this->emit('vivenciaAgregado');  
+
+    $this->reset(['vivencia']);
+    $this->emit('vivenciaAgregado');
 }
+
+
 
 public function opciones($cardId)
 {
@@ -89,13 +102,22 @@ public function editarVivencia()
     public function actualizarVivencia()
     {   
         
+        $mensajes = [
+            'vivencia.required' => 'Por favor, comparte tus sentimientos y vivencias.',
+            'vivencia.min' => 'Tu vivencia es importante. Por favor, cuéntanos más acerca de tus sentimientos en al menos 50 caracteres.',
+        ];
+    
+        // Validar los datos antes de actualizar la vivencia
+        $validatedData = $this->validate([
+            'vivencia' => ['required', 'min:50'],
+        ], $mensajes);
+    
         $elemento = Vivencia::find($this->selectedCardId);
-
-        
-        $elemento->vivencia =strtolower( $this->vivencia);
+        $elemento->vivencia = strtolower($validatedData['vivencia']);
         $elemento->save();
+    
         $this->emit('vivenciaActualizada');
-        $this->reset([ 'vivencia' ]);
+        $this->reset(['vivencia']);
     }
 
     public function deleteVive()
@@ -135,20 +157,27 @@ public function editarVivencia()
     public function cometarPublicacion()
 {
     
+    $mensajes = [
+        'comentario.required' => 'Por favor, ingresa un comentario.',
+        'comentario.min' => 'El comentario debe tener al menos 50 caracteres.',
+    ];
+
+    // Validar los datos antes de crear el comentario
+    $validatedData = $this->validate([
+        'comentario' => ['required', 'min:50'],
+    ], $mensajes);
+
     $elemento = Vivencia::find($this->vivenciaComentarioId);
     Comentariovivencia::create([
-            
-            
-        'comentario' => $this->comentario,
+        'comentario' => $validatedData['comentario'],
         'user_id' => $this->user->id,
         'vivencia_id' => $elemento->id
-        
-        
-        
     ]);
-    $this->reset([ 'comentario' ]);
+
+    $this->reset(['comentario']);
     $this->emit('comentarioAgregado');
 }
+
 public function opcionesComentario($cardId)
 {
     $this->selectedCardId2 = $cardId;
@@ -173,13 +202,23 @@ public function editarComentario()
     public function actualizarComentario()
     {   
         
-        $elemento = Comentariovivencia::find($this->selectedCardId2);
+        // Definir mensajes de error personalizados
+    $mensajes = [
+        'comentario.required' => 'Por favor, ingresa un comentario.',
+        'comentario.min' => 'El comentario debe tener al menos 50 caracteres.',
+    ];
 
-        
-        $elemento->comentario = $this->comentario;
-        $elemento->save();
-        $this->emit('actualComentario');
-        $this->reset([ 'comentario' ]);
+    // Validar los datos antes de actualizar el comentario
+    $validatedData = $this->validate([
+        'comentario' => ['required', 'min:50'],
+    ], $mensajes);
+
+    $elemento = Comentariovivencia::find($this->selectedCardId2);
+    $elemento->comentario = $validatedData['comentario'];
+    $elemento->save();
+
+    $this->emit('actualComentario');
+    $this->reset(['comentario']);
        
     }
 

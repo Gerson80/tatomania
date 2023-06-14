@@ -11,9 +11,17 @@
                 </div>
                 <div class="w-4/6  border-solid border-2 border-Primario">
                         <div class="flex justify-center items-center m-4 text-gray-700">
-                            <textarea wire:model="vivencia"  name="comentario"  id="comentario" cols="30" rows="3" class="  w-full border-b-black autofill:bg-white border-2 border-transparent bg-white focus:border-Secundario focus:bg-white focus:outline-none"></textarea>
-                        
+                            <div class="w-full">
+                                <div class="px-4">
+                                    <p class="text-gray-500 text-sm text-justify">"¡Tu voz importa! Comparte tu experiencia y sentimientos después de la mastectomía. Queremos escuchar tus reflexiones, tus emociones y cómo has enfrentado los desafíos.</p>
+                                </div>
+                                <textarea wire:model="vivencia"  name="comentario"  id="comentario" cols="30" rows="3" class="  w-full border-b-black autofill:bg-white border-2 border-transparent bg-white focus:border-Secundario focus:bg-white focus:outline-none"></textarea>
+                            </div>
+
                         </div>
+                        @error('vivencia')
+                            <span class="text-Adicional text-center mt-1 px-4">{{ $message }}</span>
+                            @enderror
                         <div class="grid place-items-center mb-4">
                             @if(!$cualVentanaEntro)
                                 <div class="grid text-3xl place-items-center my-6">
@@ -41,7 +49,7 @@
 
     @if(!$cualVentanaEntro)
     <div>
-        @foreach($vivencias as $vivencia)
+        @foreach($vivencias->reverse() as $vivencia)
                 
                 
                 <div class="flex py-5">
@@ -128,7 +136,8 @@
             </div>
             <div class="w-10/12  flex bg-Primario text-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]">
                 <div class="w-1/6  flex justify-center items-center">
-                    <img src="data:image/jpeg;base64,{{ $img }}" width="130"  alt="Descripción de la imagen" usemap="#mi-mapa" class="rounded-full my-5 ml-3">
+                    <img src="data:image/jpeg;base64,{{ $vivenciaComentario->user->foto }}" width="130"  alt="Descripción de la imagen" usemap="#mi-mapa" class="rounded-full my-5 ml-3">
+                
                 </div>
                 <div class="w-1/6 grid place-items-center">
                     <div class="text-center">
@@ -151,9 +160,16 @@
             </div>
             <div class="w-4/6  border-solid border-2 border-Primario">
                 <div class="flex justify-center items-center m-4 text-gray-700">
-                    <textarea wire:model="comentario"  name="comentario"  id="comentario" cols="30" rows="3" class="  w-full border-b-black autofill:bg-white border-2 border-transparent bg-white focus:border-Secundario focus:bg-white focus:outline-none"></textarea>
-                  
+                    <div class="w-full">
+                        <div class="px-4">
+                            <p class="text-gray-500 text-sm">Cuéntanos que te parece esta publicación.</p>
+                        </div>
+                        <textarea wire:model="comentario"  name="comentario"  id="comentario" cols="30" rows="3" class="  w-full border-b-black autofill:bg-white border-2 border-transparent bg-white focus:border-Secundario focus:bg-white focus:outline-none"></textarea>
+                    </div>
                 </div>
+                @error('comentario')
+                        <span class="text-Adicional text-center mt-1 px-4">{{ $message }}</span>
+                @enderror
                 <div class="grid place-items-center mb-4">
                     @if(!$cualVentanaEntro2)
                         <div class="grid text-3xl place-items-center my-6">
@@ -180,7 +196,7 @@
 
        @if(!$cualVentanaEntro2)
        <div>
-            @foreach($comentarios as $comentario)
+            @foreach($comentarios->reverse() as $comentario)
             
             @if($comentario->vivencia_id == $vivenciaComentarioId)
                 <div class="flex py-5">
@@ -192,8 +208,7 @@
                         @endif
                         <div class="w-1/6  flex justify-center items-center">
                             <img src="data:image/jpeg;base64,{{ $comentario->user->foto }}" width="130" alt="Descripción de la imagen" class="rounded-full my-5 ml-3">
-                            <img src="{{ asset($img) }}" alt="Imagen">
-                            {{ $comentario->user->foto }}
+                            
                         </div>
                         <div class="w-5/6 text-gray-700">
                             <p class="mt-6 ml-6 text-xl font-semibold uppercase">{{$comentario->user->name}} {{$comentario->user->last_name}}</p>

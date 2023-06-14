@@ -38,22 +38,22 @@ class CreateNewUser implements CreatesNewUsers
         $fotoBLOB = base64_encode(file_get_contents($file->getRealPath()));
         
         $user = User::create([
-            'name' => $input['name'],
-            'last_name' => $input['last_name'],
+            'name' => strtolower($input['name']),
+            'last_name' => strtolower($input['last_name']),
             'edad' => $input['edad'],
             'foto' => $fotoBLOB,
             'status' => 'false',
-            'estado' => $input['estado'],
-            'email' => $input['email'],
+            'estado' => strtolower($input['estado']),
+            'email' => strtolower($input['email']),
             'admision' => $input['admision'],
             'password' => Hash::make($input['password']),
         ])->assignRole('Normal');;
 
         $user->encuestas()->create([
-            'pregunta1' => $input['pregunta1'],
-            'pregunta2' => $input['pregunta2'],
-            'pregunta3' => $input['pregunta3'],
-            'pregunta4' => $input['pregunta4'],
+            'pregunta1' => strtolower($input['pregunta1']),
+            'pregunta2' => strtolower($input['pregunta2']),
+            'pregunta3' => strtolower($input['pregunta3']),
+            'pregunta4' => strtolower($input['pregunta4']),
         ]);
 
         return $user;

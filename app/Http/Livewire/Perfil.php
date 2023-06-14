@@ -66,26 +66,76 @@ class Perfil extends Component
     }
     public function guardarPerfil()
     {
-        $user = Auth::user();
+         // Definir mensajes de error personalizados
+    $mensajes = [
+        'edad.min' => 'La edad no es válida.',
+        'edad.max' => 'La edad no es válida.',
+        'pregunta1.required' => 'Por favor, responde la pregunta.',
+        'pregunta1.min' => 'La respuesta debe tener al menos 50 caracteres.',
+        'name.required' => 'Por favor, ingresa tu nombre.',
+        'edad.required' => 'Por favor, ingresa tu edad.',
+        'last_name.required' => 'Por favor, ingresa tu apellido.',
+        'name.string' => 'El nombre debe ser una cadena de caracteres.',
+        'name.max' => 'El nombre no puede exceder los 255 caracteres.',
+        'password.required' => 'Por favor, ingresa una contraseña.',
+        'estado.required' => 'Por favor, escriba un estado.',
+        'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+        'password.confirmed' => 'Las contraseñas no coinciden.',
+        'password.same' => 'La contraseña y la confirmación no coinciden.',
+        'password.regex' => 'La contraseña debe contener al menos una letra minúscula, una letra mayúscula y un número.',
+        'email.required' => 'Por favor, ingresa tu correo electrónico.',
+        'email.email' => 'El correo electrónico debe ser válido.',
+        'email.unique' => 'El correo electrónico ya ha sido registrado.',
+        'imagen.dimensions' => 'La foto debe tener un tamaño máximo de 1500 x 1500',
+        'imagen.required' => 'Por favor, selecciona una foto.',
+    ];
 
-        if ($this->imagen) {
-            $fotoBLOB3 = base64_encode(file_get_contents($this->imagen->getRealPath()));
-            $user->foto = $fotoBLOB3;
-            
-            
-        }else{
-            $fotoBLOB2 =$this->foto;
-            $user->foto = $fotoBLOB2;
-        }
+    // Validar los datos antes de guardar el perfil
+    if ($this->imagen) {
+        $validatedData = $this->validate([
+            'imagen' => 'required|dimensions:max_width=1500,max_height=1500',
+            'edad' => 'required|integer|min:18|max:99',
+            'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required'],
+            'estado' => ['required'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+        ], $mensajes);
+    } elseif ($this->foto) {
+        $validatedData = $this->validate([
+            'edad' => 'required|integer|min:18|max:99',
+            'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required'],
+            'estado' => ['required'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+        ], $mensajes);
+    } else {
+        $validatedData = $this->validate([
+            'edad' => 'required|integer|min:18|max:99',
+            'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required'],
+            'estado' => ['required'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+        ], $mensajes);
+    }
+    $user = Auth::user();
 
-        $user->name = strtolower($this->name);
-        $user->last_name = strtolower($this->last_name);
-        $user->edad = strtolower($this->edad);
-        $user->estado =strtolower($this->estado);
-        $user->email =strtolower($this->email);
-        $user->password =$this->password;
-        $user->save();
-        $this->emit('actializacionPerfil');
+    if ($this->imagen) {
+        $fotoBLOB3 = base64_encode(file_get_contents($this->imagen->getRealPath()));
+        $user->foto = $fotoBLOB3;
+    } else {
+        $fotoBLOB2 = $this->foto;
+        $user->foto = $fotoBLOB2;
+    }
+
+    $user->name = strtolower($validatedData['name']);
+    $user->last_name = strtolower($validatedData['last_name']);
+    $user->edad = strtolower($validatedData['edad']);
+    $user->estado = strtolower($validatedData['estado']);
+    $user->email = strtolower($validatedData['email']);
+    $user->password =  $this->password;
+    $user->save();
+
+    $this->emit('actializacionPerfil');
     }
 
     public function ventanaPublicaciones()
@@ -161,27 +211,76 @@ class Perfil extends Component
     public function actualizarDatosPublicacion()
     {   
         
-        $elemento = Publicacionestatu::find($this->selectedCardIdPublicacion);
+        // Definir mensajes de error personalizados
+    $mensajes = [
+        'imagen.required' => '¡Ups! Parece que olvidaste subir una imagen.',
+        'imagen.dimensions' => 'La imagen que has seleccionado es demasiado grande.',
+        'categoria.required' => 'Por favor, selecciona una categoría para tu historia. ¡Tu historia es importante!',
+        'historia.required' => 'Cuéntanos tu historia. Queremos conocer tu historia acerca de este tatuaje.',
+        'historia.min' => 'Tu historia es muy valiosa. Por favor, asegúrate de escribir al menos 50 caracteres para compartir tu experiencia.',
+        'nombre.required' => 'Por favor, ingresa el nombre.',
+        'apellidos.required' => 'Ingresa el apellido.',
+        'cuentame.required' => 'Este campo es crucial para nosotros. Por favor, cuéntanos más acerca de tu experiencia con el tatuador.',
+        'cuentame.min' => 'Tu experiencia merece ser escuchada. Por favor, cuéntanos más acerca de tu historia. Escribe al menos 50 caracteres.',
+        'numero.required' => 'Queremos saber el número del tatuador, por favor, ingrésalo.',
+        'numero.regex' => 'El número de teléfono debe tener 10 dígitos numéricos. Por favor, asegúrate de ingresarlo correctamente.',
+        'correo.required' => 'Por favor ingresa el correo electrónico para que nos podamos comunicar. ',
+        'correo.email' => 'Por favor, ingresa un correo electrónico válido.',
+    ];
 
-        if ($this->imagen) {
-            $fotoBLOB3 = base64_encode(file_get_contents($this->imagen->getRealPath()));
-            $elemento->foto = $fotoBLOB3;
-            
-            
-        }else{
-            $fotoBLOB2 =$this->imagen2;
-            $elemento->foto = $fotoBLOB2;
-        }
+    if ($this->imagen) {
+        $validatedData = $this->validate([
+            'imagen' => 'required|dimensions:max_width=1500,max_height=1500',
+            'categoria' => 'required',
+            'historia' =>  ['required','min:50'],
+            'nombre' => 'required',
+            'apellidos' => 'required',
+            'cuentame' =>  ['required','min:50'],
+            'numero' =>  ['required', 'regex:/^[0-9]{10}$/'],
+            'correo' => ['required', 'string', 'email', 'max:255'],
+        ], $mensajes);
+    } elseif ($this->imagen2) {
+        $validatedData = $this->validate([
+            'categoria' => 'required',
+            'historia' =>  ['required','min:50'],
+            'nombre' => 'required',
+            'apellidos' => 'required',
+            'cuentame' =>  ['required','min:50'],
+            'numero' =>  ['required', 'regex:/^[0-9]{10}$/'],
+            'correo' => ['required', 'string', 'email', 'max:255'],
+        ], $mensajes);
+    } else {
+        $validatedData = $this->validate([
+            'categoria' => 'required',
+            'historia' =>  ['required','min:50'],
+            'nombre' => 'required',
+            'apellidos' => 'required',
+            'cuentame' =>  ['required','min:50'],
+            'numero' =>  ['required', 'regex:/^[0-9]{10}$/'],
+            'correo' => ['required', 'string', 'email', 'max:255'],
+        ], $mensajes);
+    }
 
-        $elemento->categoria = $this->categoria;
-        $elemento->historia = strtolower($this->historia);
-        $elemento->name = strtolower($this->nombre);
-        $elemento->last_name =  strtolower($this->apellidos);
-        $elemento->experiencia =  strtolower($this->cuentame);
-        $elemento->numero =  strtolower($this->numero);
-        $elemento->email = strtolower($this->correo) ;
-        $elemento->save();
-        $this->emit('actializacionListaPublicacion');
+
+    $elemento = Publicacionestatu::find($this->selectedCardIdPublicacion);
+
+    if ($this->imagen) {
+        $fotoBLOB3 = base64_encode(file_get_contents($this->imagen->getRealPath()));
+        $elemento->foto = $fotoBLOB3;
+    } else {
+        $fotoBLOB2 = $this->imagen2;
+        $elemento->foto = $fotoBLOB2;
+    }
+    $elemento->categoria = $validatedData['categoria'];
+    $elemento->historia = strtolower($validatedData['historia']);
+    $elemento->name = strtolower($validatedData['nombre']);
+    $elemento->last_name = strtolower($validatedData['apellidos']);
+    $elemento->experiencia = strtolower($validatedData['cuentame']);
+    $elemento->numero = strtolower($validatedData['numero']);
+    $elemento->email = strtolower($validatedData['correo']);
+    $elemento->save();
+
+    $this->emit('actializacionListaPublicacion');
         
        
     }
@@ -206,13 +305,22 @@ class Perfil extends Component
     public function actualizarVivencia()
     {   
         
+        $mensajes = [
+            'vivencia.required' => 'Por favor, comparte tus sentimientos y vivencias.',
+            'vivencia.min' => 'Tu vivencia es importante. Por favor, cuéntanos más acerca de tus sentimientos en al menos 50 caracteres.',
+        ];
+    
+        // Validar los datos antes de actualizar la vivencia
+        $validatedData = $this->validate([
+            'vivencia' => ['required', 'min:50'],
+        ], $mensajes);
+    
         $elemento = Vivencia::find($this->selectedCardIdVivencia);
-
-        
-        $elemento->vivencia = strtolower( $this->vivencia);
+        $elemento->vivencia = strtolower($validatedData['vivencia']);
         $elemento->save();
+    
         $this->emit('vivenciaActualizada');
-        $this->reset([ 'vivencia' ]);
+        $this->reset(['vivencia']);
     }
 
     public function deleteVive()

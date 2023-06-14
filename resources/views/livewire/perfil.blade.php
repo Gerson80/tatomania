@@ -1,4 +1,5 @@
 <div>
+
     @if(!$ventanaEditarPerfil)
     <div class="grid grid-cols-3 gap-4 text-gray-700">
        <div class="">
@@ -40,7 +41,7 @@
                     <h1 class="mt-4 text-2xl text-center">Publicaciones</h1>
                     <div class="grid grid-cols-2 gap-10 ">
                         
-                        @foreach($publicaciones as $publicacion)
+                        @foreach($publicaciones->reverse() as $publicacion)
                         @if($publicacion->user_id == $user->id)
                             
 
@@ -85,16 +86,16 @@
             <div class="grid place-items-center  mb-4">
                 <button  class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 mt-4" wire:click="ventanaPublicaciones">Regresar</button>
             </div>
-            <div class="m-10 border-2 border-Adicional ">
+            <div class="m-10 border-2 border-Adicional">
                 <div class="text-center text-2xl mt-3">
                     <h1>Foto</h1>
                 </div>
                 <div class="grid place-items-center">
                     <div class="flex items-center border-2 border-Primario">
                         <label for="imagen" class="cursor-pointer">
+                            
                             <input type="file" id="imagen" wire:model="imagen" class="hidden" style="background-image: url('{{ asset('/img/subir.svg') }}')">
                             <div class="w-48 h-48  bg-transparent flex items-center justify-center">
-  
                                     @if ($imagen)
                                         <img src="{{ $imagen->temporaryUrl() }}" alt="Imagen seleccionada" class="w-48 h-48 ">
                                         
@@ -104,11 +105,20 @@
                                     @else
                                         <img src="{{ asset('/img/subir.svg') }}" alt="">
                                     @endif
-                            
+                               
                                 
                             </div>
+                            
+                            
                         </label>
+                        
                     </div>
+                    @error('imagen')
+                            <span class="text-Adicional text-center mt-1">{{ $message }}</span>
+                            @enderror
+                            @error('imagen2')
+                            <span class="text-Adicional text-center mt-1">{{ $message }}</span>
+                            @enderror
 
                 </div>
                 <div class="grid place-items-center my-3 text-lg">
@@ -123,50 +133,112 @@
                         </select>
 
                     </div>
+                    @error('categoria')
+                            <span class="text-Adicional text-center mt-1">{{ $message }}</span>
+                    @enderror
                             
                 </div>
                 <div class="grid grid-cols-6 gap-4 mx-5 text-lg border-2 border-transparent border-b-Primario">
                     <div class="col-start-2 col-span-4">
                         <x-label class=" text-lg mt-3" for="name" value="{{ __('Historia') }}" />
-                        <textarea  id="historia" wire:model="historia" name="historia" : cols="30" rows="3" class=" mb-3 w-full block border-b-black autofill:bg-white border-2 border-transparent bg-white focus:border-Secundario focus:bg-white focus:outline-none"></textarea>
-                    </div>
+                        <div class="w-full">
+                            <div class="px-4">
+                                <p class="text-gray-500 text-sm">Cuéntanos la historia que tienes acerca de este tatuaje.</p>
+                            </div>
+                            <textarea placeholder="Este tatuaje me lo hice..." id="historia" wire:model="historia" name="historia" : cols="30" rows="3" class=" mb-3 w-full block border-b-black autofill:bg-white border-2 border-transparent bg-white focus:border-Secundario focus:bg-white focus:outline-none"></textarea>
+                        </div>
+                        
+                        @error('historia')
+                        <span class="text-Adicional text-center mt-1">{{ $message }}</span>
+                        @enderror
 
+                    </div>
+                   
                 </div>
                 <h2 class="text-center text-lg mt-4 ">Datos del tatuador</h2>
                 <div class="grid grid-cols-6 gap-4 mx-5 text-xl">
                     <div class="col-start-2 col-span-4">
                         <div class="mt-2">
                             <x-label class=" text-lg mt-3" for="name" value="{{ __('Nombre') }}" />
-                            <x-input  id="nombre" wire:model="nombre" class="block text-lg mt-1 w-full h-10"  name="nombre" :value="old('nombre')" required   />
+                            <div class="w-full">
+                                <div class="px-4">
+                                    <p class="text-gray-500 text-sm">Ingresa el nombre o apodo del tatuador.</p>
+                                </div>
+                                <x-input placeholder="Brayan" id="nombre" wire:model="nombre" class="block text-lg mt-1 w-full h-10"  name="nombre" :value="old('nombre')" required   />
+                            </div>
+                            
+                            @error('nombre')
+                            <span class="text-Adicional text-center mt-1">{{ $message }}</span>
+                            @enderror
+                           
+                          
+
                         </div>
                         <div class="mt-2">
                             <x-label class=" text-lg mt-3" for="name" value="{{ __('Apellidos') }}" />
-                            <x-input  id="apellidos" wire:model="apellidos" class="block text-lg mt-1 w-full h-10"  name="apellidos" :value="old('apellidos')" required   />
+                            <x-input placeholder="Chan" id="apellidos" wire:model="apellidos" class="block text-lg mt-1 w-full h-10"  name="apellidos" :value="old('apellidos')" required   />
                         </div>
                         <div class="mt-2">
                             <x-label class=" text-lg mt-3" for="name" value="{{ __('Cuentame') }}" />
-                            <textarea  id="cuentame" wire:model="cuentame" name="cuentame" : cols="30" rows="3" class="mt-1 text-lg mb-3 w-full block border-b-black autofill:bg-white border-2 border-transparent bg-white focus:border-Secundario focus:bg-white focus:outline-none"></textarea>
+                            <div class="w-full">
+                                <div class="px-4">
+                                    <p class="text-gray-500 text-sm">Cuéntanos la experiencia que tuviste a la hora de hacerte el tatuaje.</p>
+                                </div>
+                                <textarea placeholder="Me atendió muy..." id="cuentame" wire:model="cuentame" name="cuentame" : cols="30" rows="3" class="mt-1 text-lg mb-3 w-full block border-b-black autofill:bg-white border-2 border-transparent bg-white focus:border-Secundario focus:bg-white focus:outline-none"></textarea>
                         
+                            </div>
+                            
+                            @error('cuentame')
+                            <span class="text-Adicional text-center mt-1">{{ $message }}</span>
+                            @enderror
+                           
                         </div>
                         <div class="mt-2">
                             <x-label class=" text-lg mt-3" for="name" value="{{ __('Numero') }}" />
-                            <x-input  id="numero" wire:model="numero" class="block text-lg mt-1 w-full h-10"  name="numero" :value="old('numero')"    />
+                            <div class="w-full">
+                                <div class="px-4">
+                                    <p class="text-gray-500 text-sm">Ingresa el número del tatuador para que más mujeres se puedan comunicar con él.</p>
+                                </div>
+                                <x-input placeholder="9911567889" type="number" id="numero" wire:model="numero" class="block text-lg mt-1 w-full h-10"  name="numero" :value="old('numero')"    />
+                        
+                            </div>
+                            
+                            @error('numero')
+                            <span class="text-Adicional text-center mt-1">{{ $message }}</span>
+                            @enderror
+                            
                         </div>
                         <div class="mt-2">
                             <x-label class=" text-lg mt-3" for="name" value="{{ __('Correo') }}" />
-                            <x-input  id="correo" wire:model="correo" class="block text-lg mt-1 w-full h-10"  name="correo" :value="old('correo')"   />
-                        </div>
+                            <div class="w-full">
+                                <div class="px-4">
+                                    <p class="text-gray-500 text-sm">Ingresa el correro del tatuador para que más mujeres se puedan comunicar con él.</p>
+                                </div>
+                                <x-input placeholder="Brayan56@itsmotul.com" id="correo" wire:model="correo" class="block text-lg mt-1 w-full h-10"  name="correo" :value="old('correo')"   />
                         
+                            </div>
+                            
+                            @error('correo')
+                            <span class="text-Adicional text-center mt-1">{{ $message }}</span>
+                            @enderror
+                            
+                        </div>
+                 
                         <div class="grid text-3xl place-items-center my-6">
                             <x-button wire:click="actualizarDatosPublicacion" >
                                 Guardar
                             </x-button>
                         </div>
-                        
+                       
                     
                     </div>
 
                 </div>
+                
+                
+                
+
+            </div>
                 
                 
                 
@@ -207,7 +279,7 @@
                         <button  class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 mt-4" wire:click="ventanaVivencias">Regresar</button>
                     </div>
                     <h1 class="mt-4 text-2xl">Vivencias</h1>
-                    @foreach($vivencias as $vivencia)
+                    @foreach($vivencias->reverse() as $vivencia)
                         @if($vivencia->user->id==$user->id)
         
                             <div class="flex py-5">
@@ -272,9 +344,17 @@
                 </div>
                 <div class="w-4/6  border-solid border-2 border-Primario">
                     <div class="flex justify-center items-center m-4 text-gray-700">
-                        <textarea wire:model="vivencia"  name="comentario"  id="comentario" cols="30" rows="3" class="  w-full border-b-black autofill:bg-white border-2 border-transparent bg-white focus:border-Secundario focus:bg-white focus:outline-none"></textarea>
-                      
+                        <div class="w-full">
+                            <div class="px-4">
+                                <p class="text-gray-500 text-sm text-justify">"¡Tu voz importa! Comparte tu experiencia y sentimientos después de la mastectomía. Queremos escuchar tus reflexiones, tus emociones y cómo has enfrentado los desafíos.</p>
+                            </div>
+                            <textarea wire:model="vivencia"  name="comentario"  id="comentario" cols="30" rows="3" class="  w-full border-b-black autofill:bg-white border-2 border-transparent bg-white focus:border-Secundario focus:bg-white focus:outline-none"></textarea>
+                        </div>
+
                     </div>
+                    @error('vivencia')
+                        <span class="text-Adicional text-center mt-1 px-4">{{ $message }}</span>
+                    @enderror
                     <div class="grid place-items-center mb-4">
                         
                             <div class="grid text-3xl place-items-center my-6">
@@ -327,30 +407,72 @@
                             
                         </div>
                     </label>
+                    @error('imagen')
+                    <span class="text-Adicional text-center mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
     
                 <div class="flex mt-2">
                     <x-label class="p-4 w-1/6 text-right" for="name" value="{{ __('Nombre') }}" />
-                    <x-input id="name" wire:model="name" class="block mt-1 w-full h-10"  name="name" :value="old('name')" required autofocus  />
+                    <div class="w-full">
+                        <div class="px-4">
+                            <p class="text-gray-500 text-sm">Regístrate con el nombre que quieres que los demás usuarios vean.</p>
+                        </div>
+                        <x-input placeholder="Adriana" id="name" wire:model="name" class="block mt-1 w-full h-10" name="name" :value="old('name')" required autofocus />
+
+                    </div>
+                    @error('name')
+                    <span class="text-Adicional text-center mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="flex mt-2">
                     <x-label class="p-4 w-1/6 text-right" for="name" value="{{ __('Apellidos') }}" />
                     <x-input  id="name" wire:model="last_name" class="block mt-1 w-full h-10"  name="last_name" :value="old('last_name')" required autofocus  />
+                    @error('last_name')
+                        <span class="text-Adicional text-center mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="flex mt-2">
                     <x-label class="p-4  w-1/6 text-right" for="name" value="{{ __('Edad') }}" />
-                    <x-input  id="name" wire:model="edad" class="block mt-1 w-full h-10"  name="edad" :value="old('edad')" required autofocus  />
+                    <div class="w-full">
+                        <div class="px-4">
+                            <p class="text-gray-500 text-sm">Ingrese su edad, el cual debe ser mayor a 18 años.</p>
+                        </div>
+                        <x-input placeholder="34" wire:model="edad" type="number" id="name" class="block mt-1 w-full h-10"  name="edad" :value="old('edad')" required autofocus  />
+                    </div>
+                    @error('edad')
+                        <p class="text-Adicional text-center mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="flex mt-2">
                     <x-label class="p-4  w-1/6 text-right" for="name" value="{{ __('Estado') }}" />
-                    <x-input  id="name" wire:model="estado" class="block mt-1 w-full h-10"  name="estado" :value="old('estado')" required autofocus  />
+                    <div class="w-full">
+                        <div class="px-4">
+                            <p class="text-gray-500 text-sm">Ingrese su estado en el que vive, Eje. Yucatán.</p>
+                        </div>
+                        <x-input placeholder="Yucatan" id="name" wire:model="estado" class="block mt-1 w-full h-10"  name="estado" :value="old('estado')" required autofocus  />
+                    </div>
+                   
+                    @error('estado')
+                    <span class="text-Adicional text-center mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
 
                
                 <div class="mt-2 flex">
                     <x-label class="p-4  w-1/6 text-right" for="email" value="{{ __('Email') }}" />
-                    <x-input   id="email" wire:model="email" class="block mt-1 w-full h-10"  name="email" :value="old('email')" required  />
+                    <div class="w-full">
+                        <div class="px-4">
+                            <p class="text-gray-500 text-sm">Ingrese su email personal, de preferencia el que más usa.</p>
+                        </div>
+                        <x-input placeholder="Adriana34@gmail.com" wire:model="email" id="email" class="block mt-1 w-full h-10"  name="email" :value="old('email')" required  />
+                    </div>
+                    
+                    
+                    @error('email')
+                    <span class="text-Adicional text-center mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
     
                 

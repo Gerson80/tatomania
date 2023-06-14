@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
       $this->call(RolSeeder::class);
        User::factory()
        
-       ->count(100)
+       ->count(25)
        ->hasEncuestas(1)
        ->hasPublicacionestatus(1) 
         //cuantas notas quiere que agregue
