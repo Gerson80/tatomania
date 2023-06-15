@@ -5,6 +5,7 @@ use Filament\Filament;
 use App\Http\Livewire\Admin;
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,9 +20,7 @@ use App\Http\Livewire\Admin;
 // Ruta para el componente de Livewire
 
 
-Route::middleware(['role:admin'])->group(function () {
-    Filament::route();
-});
+
 
 Route::get('/', function () {
     return view('inicio');
