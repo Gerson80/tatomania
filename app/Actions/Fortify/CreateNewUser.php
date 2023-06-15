@@ -47,7 +47,7 @@ class CreateNewUser implements CreatesNewUsers
             'email' => strtolower($input['email']),
             'admision' => $input['admision'],
             'password' => Hash::make($input['password']),
-        ])->assignRole('Normal');;
+        ])->assignRole('Normal');
 
         $user->encuestas()->create([
             'pregunta1' => strtolower($input['pregunta1']),

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Filament\Filament;
+use App\Http\Livewire\Admin;
 
 
 /*
@@ -17,9 +19,9 @@ use Illuminate\Support\Facades\Route;
 // Ruta para el componente de Livewire
 
 
-
-
-
+Route::middleware(['role:admin'])->group(function () {
+    Filament::route();
+});
 
 Route::get('/', function () {
     return view('inicio');
@@ -45,6 +47,8 @@ Route::get('/login2', function () {
 Route::get('/welcome', function () {
     return view('welcome');
 })->name('welcome');
+
+
 
 
 

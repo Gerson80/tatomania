@@ -90,7 +90,7 @@ class User extends Authenticatable
         //y voy a acceder a ellos a travez de topics
         //topics va regresar todos lo temas relacionados a el subject
 
-   
+        
 
     public function comentariostatus(): HasMany//esta relacion se llama topics
     {
@@ -121,4 +121,6 @@ class User extends Authenticatable
         {
             return $this->hasMany(Likevivencia::class);}//retur de este modelo que apunta a topic class tiene muchos topicos
             //y voy a acceder a ellos a travez de topics
+
+
 }
