@@ -33,12 +33,12 @@ class UserResource extends Resource
     {
         return $form
         ->schema([
-            Select::make('Admisión')
+            Select::make('admision')
                 ->options([
                     'no' => 'No',
                     'si' => 'Sí',
                 ])
-                ->required(),
+                ->required()->label('Admisión'),
         ]);
     }
 
